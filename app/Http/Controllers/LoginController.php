@@ -10,6 +10,6 @@ class LoginController extends Controller
      * Login function
      */
     public function postLogin(Request $request){
-        
+
     }
 }
