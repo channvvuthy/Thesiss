@@ -14,3 +14,17 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+/*
+ * Route auth
+ */
+Route::group(['prefix'=>'administrator'],function (){
+    Route::get('/login',[
+        'uses'=>'LoginController@getLogin',
+        'as'=>'user.login'
+    ]);
+    Route::post('/login',[
+        'uses'=>'LoginController@postLogin',
+
+    ]);
+});

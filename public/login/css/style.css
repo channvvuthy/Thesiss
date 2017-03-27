@@ -1,0 +1,52 @@
+
+*{
+    border-radius: 0px !important;
+}
+.imageUserLogin img{
+    max-width:60px;
+    float:left;
+    margin:0px;
+    padding:0px;
+    margin-left:100px;
+}
+.titleSystem,.font-impact, .panel button   {
+    font-family:impact;
+    font-size:20px;
+    margin-top: 19px;
+    padding:0px;
+    margin-right: 74px;
+}
+.clear-top{
+    margin-top:170px;
+}
+
+.header_login.btn.btn-default.btn-block {
+    background: #ddd;
+    background-image: linear-gradient(#ecebeb,#eae9e9);
+    border-radius: 0px !important;
+}
+.panel .panel-heading{
+    padding:1px 10px;
+}
+.panel-body{
+    padding: 15px 50px;
+}
+.panel input{
+    height:45px;
+    text-indent: 56px;
+}
+.panel button{
+    height:45px;
+}
+.relative{
+    position: relative;
+}
+.absolute{
+    position: absolute;
+    height: 100%;
+    width: 55px;
+    padding: 5px;
+    padding-left: 10px;
+    background: rgba(212, 212, 212, 0.2);
+    border-right: 1px solid #ddd;
+}
