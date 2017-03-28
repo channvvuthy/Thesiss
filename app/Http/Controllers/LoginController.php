@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Auth;
+use App\Models\User;
 class LoginController extends Controller
 {
     /*
@@ -14,8 +15,12 @@ class LoginController extends Controller
     }
     public function postLogin(Request $request){
         $this->validate($request,[
-            'email'=>'required|email',
+            'email'=>'required|email|exists:users',
             'password'=>'required'
         ]);
+        if(Auth::attempt(['email'=>$request->email,'password'=>$request->password])){
+            return "succ";
+        }
+
     }
 }

@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    //
+    /*
+     * Role has many users
+     */
+    public function users(){
+        return $this->belongsToMany('\App\Models\Users','role_user','role_id','user_id');
+    }
 }
