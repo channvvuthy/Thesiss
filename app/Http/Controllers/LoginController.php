@@ -22,5 +22,6 @@ class LoginController extends Controller
             return "succ";
         }
 
+
     }
 }
