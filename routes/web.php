@@ -26,9 +26,9 @@ Route::group(['prefix' => 'administrator'], function () {
         'uses' => 'LoginController@postLogin',
 
     ]);
-    Route::get('/index',[
-       'uses'=>'AdminController@getIndex',
-        'as'=>'admin.index'
+    Route::get('/index', [
+        'uses' => 'AdminController@getIndex',
+        'as' => 'admin.index'
 
     ])->middleware('admin');
     /*
@@ -43,9 +43,20 @@ Route::group(['prefix' => 'administrator'], function () {
     /*
      * Route admin
      */
-    Route::get('/admin', [
-        'uses' => 'AdminController@getIndex',
-        'as' => 'admin.index'
-    ]);
+    Route::group(['middleware' => 'admin'], function () {
+        Route::get('/admin', [
+            'uses' => 'AdminController@getIndex',
+            'as' => 'admin.index'
+        ]);
+        Route::get('create-user',[
+            'uses'=>'AdminController@getCreateUser',
+            'as'=>'createUser'
+        ]);
+
+        Route::get('create-group',[
+            'uses'=>'AdminController@getCreateGroup',
+            'as'=>'createGroup'
+        ]);
+    });
 
 });

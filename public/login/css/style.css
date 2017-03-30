@@ -11,10 +11,9 @@
 }
 .titleSystem,.font-impact, .panel button   {
     font-family:impact;
-    font-size:20px;
-    margin-top: 19px;
+    font-size: 15px;
     padding:0px;
-    margin-right: 74px;
+    margin-top: 14px !important;
 }
 .clear-top{
     margin-top:170px;
@@ -85,10 +84,10 @@
     width:35px;
 }
 .systemAlert a{
-    font-size:16px;
     text-decoration:none;
     font-weight: bold;
     text-transform: capitalize;
+    font-size: 13px;
 }
 .col-md-2.navLeft {
     background: #212c32;
@@ -98,10 +97,68 @@
     color:#e3e7e8;
     font-weight:bold;
     text-decoration: none;
+    font-size: 12px;
+    padding:5px 0px;
+    display:block;
 }
 .col-md-2.navLeft{
     padding-top:15px;
 }
 .col-md-2.navLeft ul li{
     margin:15px 0px;
+}
+.navLeft img{
+    width:20px;
+    margin-right: 5px;
+    margin-top: -5px;
+}
+.float ul li{
+    float:left;
+    display: block;
+}
+.pangasu.float {
+    border:1px solid #ddd;
+    margin-top:15px;
+    height:40px;
+    line-height:40px;
+    overflow:hidden;
+}
+.pangasu.float li a{
+    font-weight:bold;
+    color:#888;
+    padding:0px 15px;
+    position:relative;
+    text-decoration:none;
+    display: block;
+    width: 100px;
+}
+.pangasu.float li a:after{
+    content:"";
+    position:absolute;
+    height:50px;
+    width:50px;
+    border:2px solid #ddd;
+    transform:rotate(45deg) scale(0.6,0.6);
+    top: -6px;
+    \: -17px;
+    border-left-color:transparent;
+    border-bottom-color:transparent;
+    right: 0;
+}
+.pangasu.float li a img{
+    margin-top:-5px;
+}
+.clear-top-simple{
+    margin: 15px 0px;
+}
+.SystemForm input{
+    outline: none;
+    height:40px;
+    border: 1px solid #ddd;
+    box-shadow: none;
+}
+.SystemForm textarea{
+    outline: none;
+    border: 1px solid #ddd;
+    box-shadow: none;
 }

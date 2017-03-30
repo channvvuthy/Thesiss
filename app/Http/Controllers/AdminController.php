@@ -12,4 +12,10 @@ class AdminController extends Controller
     public function getIndex(){
         return view('admin.index');
     }
+    public function  getCreateUser(Request $request){
+        return view('admin.user');
+    }
+    public function getCreateGroup(){
+        return view('admin.group');
+    }
 }
