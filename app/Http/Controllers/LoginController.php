@@ -19,7 +19,18 @@ class LoginController extends Controller
             'password'=>'required'
         ]);
         if(Auth::attempt(['email'=>$request->email,'password'=>$request->password])){
-           return view('admin.index');
+            foreach(Auth::user()->roles as $role){
+                if($role->permission=='admin'){
+                    return view('admin.index');
+                }elseif($role->permission=='manager'){
+                    return "manager";
+                }elseif($role->permission=='leader'){
+                    return "Leader";
+                }elseif($role->permission=='member'){
+                    return "member";
+                }
+            }
+
         }
 
 

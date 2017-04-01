@@ -6,7 +6,7 @@
         <div class="pangasu float">
             <ul class="list-unstyled">
                 <li><a href="/administrator/index"><img src="{{asset('icon/1489862497_house.png')}}" alt=""></a></li>
-                <li><a href="{{route('createGroup')}}">Group</a></li>
+                <li><a href="">Role</a></li>
             </ul>
         </div>
         <div class="clearfix clear-top-normal" style="margin-top:15px;"></div>
@@ -17,33 +17,20 @@
 
 
         @endif
-        <form action="{{route('createGroup')}}" class="SystemForm" method="post">
+        <form action="{{route('createRole')}}" class="SystemForm" method="post">
             <input type="hidden" name="_token" value="{{Session::token()}}">
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4> Group</h4>
+                    <h4>Role</h4>
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
                         <div class="col-md-2" style="padding-left: 0px;">
-                            <label for="">Group Name</label>
+                            <label for="">Role Name</label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" name="groupName" id="" class="form-control">
-                        </div>
-                    </div>
-                    <div class="clearfix clear-top-simple"></div>
-                    <div class="form-group">
-                        <div class="col-md-2" style="padding-left: 0px;">
-                            <label for="">Group Type</label>
-                        </div>
-                        <div class="col-md-8">
-                            <select name="groupType" id="" class="form-control">
-                                <option value="first">First</option>
-                                <option value="base">Base</option>
-                                <option value="qc">QC</option>
-                            </select>
+                            <input type="text" name="roleName" id="" class="form-control">
                         </div>
                     </div>
                     <div class="clearfix clear-top-simple"></div>
@@ -52,10 +39,23 @@
                             <label for="">Description</label>
                         </div>
                         <div class="col-md-8">
-                            <textarea name="groupDescription" id="" cols="30" rows="5" class="form-control"></textarea>
+                            <textarea name="roleDescription" id="" cols="30" rows="5" class="form-control"></textarea>
                         </div>
                     </div>
 
+
+                    <div class="clearfix clear-top-simple"></div>
+                    <div class="form-group">
+                        <div class="col-md-2" style="padding-left: 0px;">
+                            <label for="">Permission</label>
+                        </div>
+                        <div class="col-md-8">
+                            <p><input type="radio" name="rolePermission" value="admin" checked><b>Administrator</b></p>
+                            <p><input type="radio" name="rolePermission" value="manager"><b> Manager</b></p>
+                            <p><input type="radio" name="rolePermission" value="leader"><b>Leader </b></p>
+                            <p><input type="radio" name="rolePermission" value="member"><b>Member </b></p>
+                        </div>
+                    </div>
                     <div class="clearfix clear-top-simple"></div>
                     <div class="form-group">
                         <div class="col-md-8 col-md-offset-2">
@@ -69,12 +69,8 @@
         </form>
         <div class="panel panel-default SystemForm">
             <div class="panel-heading">
-                <form action="{{route('searchGroup')}}" method="get">
-                    <img src="{{asset('icon/1489866801_icon-111-search.png')}}" alt="" id="isearch">
-                    <input type="text" name="search" id="search" placeholder="search...">
-                    <input type="hidden" name="_token" value="{{Session::token()}}">
-                </form>
-
+                <img src="{{asset('icon/1489866801_icon-111-search.png')}}" alt="" id="isearch">
+                <input type="text" name="" id="search" placeholder="search..,">
             </div>
             <div class="panel-body">
                 <table class="table table-responsive">
@@ -83,29 +79,25 @@
                         <th></th>
                         <th>ID</th>
                         <th>Name</th>
+                        <th>Permission</th>
                         <th>Description</th>
-                        <th>Active</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($groups as $group)
+                    @foreach($roles as $role)
                         <tr>
-                            <td><a href="{{route('editGroup',['id'=>$group->id])}}"><img
-                                            src="{{asset('icon/1489864471_Edit-01.png')}}" alt=""></a><a
-                                        href="{{route('deleteGroup',['id'=>$group->id])}}"><img
-                                            src="{{asset('icon/1489864883_Streamline-70.png')}}" alt=""></a><a
-                                        href="{{route('groupActive',array('id'=>$group->id))}}"><img
-                                            src="{{asset('icon/1489865010_Button Record Active.png')}}" alt=""></a></td>
-                            <td>{{$group->id}}</td>
-                            <td>{{$group->name}}</td>
-                            <td>{{$group->description}}</td>
-                            <td>@if($group->active) Active @else Inactive @endif</td>
+                            <td><a href="{{route('editRole',['id'=>$role->id])}}"><img src="{{asset('icon/1489864471_Edit-01.png')}}" alt=""></a><a href="{{route('deleteRole',['id'=>$role->id])}}"><img src="{{asset('icon/1489864883_Streamline-70.png')}}" alt=""></a></td>
+                            <td>{{$role->id}}</td>
+                            <td>{{$role->name}}</td>
+                            <td>{{$role->permission}}</td>
+                            <td>{{$role->description}}</td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
-        {{$groups->render()}}
+        {{$roles->render()}}
+
     </div>
 @stop

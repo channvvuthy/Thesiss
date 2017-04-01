@@ -17,7 +17,7 @@ class AddminMiddleware
     {
         if(Auth::user()->roles !=null){
             foreach(Auth::user()->roles as $role){
-                if($role->name=='admin'){
+                if($role->permission=='admin'){
                     return $next($request);
                 }
             }

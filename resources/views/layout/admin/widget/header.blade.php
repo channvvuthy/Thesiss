@@ -1,7 +1,7 @@
 <div class="header bg-primary">
     <div class="col-md-6">
         <div class="systemTitle font-impact" style="margin:10px 0px 0px 0px;">
-            Employee Management Syste of Plan-B
+            Employee Management System of Plan-B
         </div>
 
     </div>

@@ -6,7 +6,7 @@
         <div class="pangasu float">
             <ul class="list-unstyled">
                 <li><a href="/administrator/index"><img src="{{asset('icon/1489862497_house.png')}}" alt=""></a></li>
-                <li><a href="{{route('createGroup')}}">Group</a></li>
+                <li><a href="">Group</a></li>
             </ul>
         </div>
         <div class="clearfix clear-top-normal" style="margin-top:15px;"></div>
@@ -17,9 +17,9 @@
 
 
         @endif
-        <form action="{{route('createGroup')}}" class="SystemForm" method="post">
+        <form action="{{route('updateGroup')}}" class="SystemForm" method="post">
             <input type="hidden" name="_token" value="{{Session::token()}}">
-
+            <input type="hidden" name="id" value="{{$group->id}}">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4> Group</h4>
@@ -30,7 +30,7 @@
                             <label for="">Group Name</label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" name="groupName" id="" class="form-control">
+                            <input type="text" name="groupName" id="" class="form-control" value="{{$group->name}}">
                         </div>
                     </div>
                     <div class="clearfix clear-top-simple"></div>
@@ -40,9 +40,9 @@
                         </div>
                         <div class="col-md-8">
                             <select name="groupType" id="" class="form-control">
-                                <option value="first">First</option>
-                                <option value="base">Base</option>
-                                <option value="qc">QC</option>
+                                <option value="first" @if($group->type=="first") selected   @endif>First</option>
+                                <option value="base" @if($group->type=="base") selected   @endif>Base</option>
+                                <option value="qc" @if($group->type=="qc")  selected  @endif>QC</option>
                             </select>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                             <label for="">Description</label>
                         </div>
                         <div class="col-md-8">
-                            <textarea name="groupDescription" id="" cols="30" rows="5" class="form-control"></textarea>
+                            <textarea name="groupDescription" id="" cols="30" rows="5" class="form-control">{{$group->description}}</textarea>
                         </div>
                     </div>
 
@@ -67,45 +67,6 @@
                 <div class="panel-footer"><h1></h1></div>
             </div>
         </form>
-        <div class="panel panel-default SystemForm">
-            <div class="panel-heading">
-                <form action="{{route('searchGroup')}}" method="get">
-                    <img src="{{asset('icon/1489866801_icon-111-search.png')}}" alt="" id="isearch">
-                    <input type="text" name="search" id="search" placeholder="search...">
-                    <input type="hidden" name="_token" value="{{Session::token()}}">
-                </form>
 
-            </div>
-            <div class="panel-body">
-                <table class="table table-responsive">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Active</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($groups as $group)
-                        <tr>
-                            <td><a href="{{route('editGroup',['id'=>$group->id])}}"><img
-                                            src="{{asset('icon/1489864471_Edit-01.png')}}" alt=""></a><a
-                                        href="{{route('deleteGroup',['id'=>$group->id])}}"><img
-                                            src="{{asset('icon/1489864883_Streamline-70.png')}}" alt=""></a><a
-                                        href="{{route('groupActive',array('id'=>$group->id))}}"><img
-                                            src="{{asset('icon/1489865010_Button Record Active.png')}}" alt=""></a></td>
-                            <td>{{$group->id}}</td>
-                            <td>{{$group->name}}</td>
-                            <td>{{$group->description}}</td>
-                            <td>@if($group->active) Active @else Inactive @endif</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        {{$groups->render()}}
     </div>
 @stop
