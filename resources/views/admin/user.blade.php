@@ -131,9 +131,7 @@
                                 @endforeach
                             </td>
                             <td>
-                                @foreach($user->groups as $group)
-                                    {{$group->name}}
-                                @endforeach
+                                {{$user->group['name']}}
                             </td>
                             <td>
                                 @if($user->status=='1')

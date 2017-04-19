@@ -92,7 +92,7 @@
 }
 .col-md-2.navLeft {
     background: #212c32;
-    min-height: 800px;
+    min-height: 1000px;
 }
 .col-md-2.navLeft ul li a{
     color:#e3e7e8;
@@ -131,7 +131,7 @@
     position:relative;
     text-decoration:none;
     display: block;
-    width: 100px;
+    width: 129px;
 }
 .pangasu.float li a:after{
     content:"";

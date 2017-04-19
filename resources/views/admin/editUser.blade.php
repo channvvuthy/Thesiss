@@ -81,16 +81,11 @@
                         <div class="col-md-2" style="padding-left: 0px;">
                             <label for="">Group</label>
                         </div>
-
-                        @foreach($user->groups as $groupName)
-                            <?php $groupN=$groupName->name?>
-
-                        @endforeach
                         <div class="col-md-8">
                             <select name="groupName" id="" class="form-control">
                                 <option value="">Choose Group</option>
                                 @foreach($groups as $group)
-                                    <option value="{{$group->id}}" @if($group->name==$groupN) selected @endif>{{$group->name}}</option>
+                                    <option value="{{$group->id}}" @if($group->name==$user->group['name']) selected @endif>{{$group->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -99,7 +94,7 @@
                     <div class="clearfix clear-top-simple"></div>
                     <div class="form-group">
                         <div class="col-md-8 col-md-offset-2">
-                            <button type="submit" class="btn btn-success addPadding">Save</button>
+                            <button type="submit" class="btn btn-success addPadding">Update User</button>
                         </div>
                     </div>
                     <div class="clearfix clear-top-simple"></div>

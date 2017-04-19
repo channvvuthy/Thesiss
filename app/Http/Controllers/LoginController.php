@@ -25,12 +25,14 @@ class LoginController extends Controller
                 }elseif($role->permission=='manager'){
                     return "manager";
                 }elseif($role->permission=='leader'){
-                    return "Leader";
+                    return redirect()->route('leader.index');
                 }elseif($role->permission=='member'){
                     return "member";
                 }
             }
 
+        }else{
+            return redirect()->route('login')->withInput()->withErrors(['email'=>'Incorrect Username or Password']);
         }
 
 

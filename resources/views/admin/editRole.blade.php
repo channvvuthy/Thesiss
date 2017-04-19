@@ -59,7 +59,7 @@
                     <div class="clearfix clear-top-simple"></div>
                     <div class="form-group">
                         <div class="col-md-8 col-md-offset-2">
-                            <button type="submit" class="btn btn-success addPadding">Save</button>
+                            <button type="submit" class="btn btn-success addPadding">Update Role</button>
                         </div>
                     </div>
                     <div class="clearfix clear-top-simple"></div>

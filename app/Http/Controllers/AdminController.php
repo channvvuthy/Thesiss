@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Models\Group;
 use Auth;
@@ -43,13 +44,12 @@ class AdminController extends Controller
         $user->email=$email;
         $user->password=$password;
         $user->status=1;
+        $user->group_id=$groupName;
         $user->save();
         if(!empty($roleName)){
             $user->roles()->attach($roleName);
         }
-        if(!empty($groupName)) {
-            $user->groups()->attach($groupName);
-        }
+
         return redirect()->back()->withInput()->withErrors(['notice'=>'user has been created']);
     }
 
@@ -61,10 +61,19 @@ class AdminController extends Controller
 
     }
     public function getActiveUser($id){
-
+        $user=User::find($id);
+        if($user->status=="1"){
+            $user->status="0";
+        }else if($user->status=="0"){
+            $user->status="1";
+        }
+        $user->save();
+        return redirect()->back()->withInput()->withErrors(['notice'=>'user has been updated']);
     }
     public function getDeleteUser($id){
-
+        $user=User::find($id);
+        $user->delete();
+        return redirect()->back()->withInput()->withErrors(['notice'=>'user deleleted']);
     }
     public function postUpdateUser(Request $request){
         $userName=$request->userName;
@@ -77,14 +86,13 @@ class AdminController extends Controller
         $user->email=$email;
         $user->password=$password;
         $user->status=1;
+        $user->group_id=$groupName;
         $user->save();
         $user->roles()->detach();
         if(!empty($roleName)){
             $user->roles()->attach($roleName);
         }
-        if(!empty($groupName)) {
-            $user->groups()->attach($groupName);
-        }
+
         return redirect()->route('createUser')->withInput()->withErrors(['notice'=>'user has been updated']);
     }
 
@@ -213,7 +221,43 @@ class AdminController extends Controller
     }
 
     public function getSetting(){
-        return view('admin.setting');
+        $setting=Setting::first();
+        return view('admin.setting')->withSetting($setting);
+    }
+
+    public function postSetting(Request $request){
+        $setting=Setting::first();
+        $autoBackup=$request->autoBackup;
+        $backupDate=$request->backupDate;
+        $alertDateline=$request->alertDateline;
+        if($autoBackup){
+            $autoBackup="1";
+        }else{
+            $autoBackup="0";
+        }
+
+        if($alertDateline){
+            $alertDateline="1";
+        }else{
+            $alertDateline="0";
+        }
+
+        if(!count($setting)){
+            $setting=new Setting();
+            $setting->auto_backup=$autoBackup;
+            $setting->alert=$alertDateline;
+            $setting->date=$backupDate;
+            $setting->save();
+            return redirect()->back()->withInput()->withErrors(['notice'=>'setting has been saved']);
+
+        }else{
+            $setting=Setting::find($setting->id);
+            $setting->auto_backup=$autoBackup;
+            $setting->alert=$alertDateline;
+            $setting->date=$backupDate;
+            $setting->save();
+            return redirect()->back()->withInput()->withErrors(['notice'=>'setting has been updated']);
+        }
     }
 
 }

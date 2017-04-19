@@ -39,13 +39,14 @@
                     <br>
                     <form action="" method="post">
                         <div class="panel-body">
-                            <input type="hidden" name="_token" value="{{Session::token()}}">
+                            <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <div class="form-group relative">
                                 <div class="icon absolute">
                                     <img src="{{asset('icon/1489854682_free-17.png')}}" alt="">
                                 </div>
                                 <input type="text" name="email" id="" class="form-control"
                                        placeholder="Enter Email Address">
+                                <div class="clearfix"></div>
                                 <div class="error">
                                     <span class="text-danger">{{$errors->first('email')}}</span>
                                 </div>
