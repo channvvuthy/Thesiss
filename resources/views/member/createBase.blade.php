@@ -25,7 +25,7 @@
                     <h4>Create Base</h4>
                 </div>
                 <div class="panel-body">
-                    <div class="col-md-9">
+                    <div class="col-md-9" style="padding-left: 0px;">
                         @if(!empty($newFileName))
                             @if(strpos($newFileName,"."))
                                 @php
@@ -41,6 +41,68 @@
                                 </div>
                                 <div class="clearfix"></div>
                                 <button type="submit" class="btn btn-primary">Save</button>
+                            @endif
+                        @else
+                            @if(!empty($mode))
+                                <textarea name="editor" id="" cols="30" rows="10"></textarea>
+                                <div id="editor" class="editor">
+                                </div>
+                            @else
+                                <div class="form-group">
+                                    <h4>Your Pattern</h4>
+                                    <hr>
+                                    @if(!empty(Auth::user()->patterns))
+                                        <table class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>URL</th>
+                                                <th>File</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach(Auth::user()->patterns as $pattern)
+                                                <tr>
+                                                    <td>{{$pattern->name}}</td>
+                                                    <td>
+                                                        <div style="width: 250px;overflow-x: auto"><a
+                                                                    href="{{$pattern->url}}">{{$pattern->url}}</a></div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{asset('uploads')}}/{{$pattern->file_name}}">{{$pattern->file_name}}</a>
+                                                    </td>
+
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    @endif
+                                    <h4>Your Base</h4>
+                                    <hr>
+                                    @if(!empty($fs))
+                                        @php $i=0;@endphp
+                                        @foreach($fs as $f)
+
+                                            @if(!strpos($f,"."))
+                                                <label class="checkbox-inline"><input type="checkbox" value="{{$f}}"
+                                                                                      name="base" id="base_{{$i}}">
+                                                    <p></p><b>{{$f}}</b></label>
+                                                @php $i++;@endphp
+                                            @endif
+                                        @endforeach
+                                        <div class="total" data="{{$i}}"></div>
+                                        <hr>
+                                        <div class="form-group">
+                                            <label for="">Leader Path</label>
+                                            <input type="text" name="leaderPath" id="" class="form-control"
+                                                   placeholder="C:\xampp\htdocs\MyThesis">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-success">Copy and Save</button>
+                                        </div>
+
+                                    @endif
+                                </div>
                             @endif
 
                         @endif
@@ -61,15 +123,19 @@
                         <div id="contextMenu" oncontextmenu="return customRightClick(event);">
                             <p><i class="glyphicon glyphicon-folder-open"></i> &nbsp;Base Management</p>
                             <ul class="list-unstyled" id="subContextMenu">
-                                <li data="create_file" data-tile="Create New File"><i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Create New
+                                <li data="create_file" data-tile="Create New File"><i
+                                            class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Create New
                                     File
                                 </li>
-                                <li data="create_folder" data-tile="Create New Folder"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Create
+                                <li data="create_folder" data-tile="Create New Folder"><i
+                                            class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Create
                                     New Folder
                                 </li>
-                                <li data="delete_file" data-tile="Delete File"><i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Delete File
+                                <li data="delete_file" data-tile="Delete File"><i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Delete
+                                    File
                                 </li>
-                                <li data="delete_folder" data-tile="Delete Folder"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Delete
+                                <li data="delete_folder" data-tile="Delete Folder"><i
+                                            class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Delete
                                     Folder
                                 </li>
                                 <li data="refresh_page" data-tile=""><i class="glyphicon glyphicon-refresh"></i>&nbsp;&nbsp;Refresh
@@ -78,32 +144,40 @@
                                 <li data="exit"><i class="glyphicon glyphicon-home"></i>&nbsp;&nbsp;Exit</li>
 
                             </ul>
-                            @foreach($fs as $f)
-                                <div class="main">
-                                    @if(!empty($fileName))
-                                        @if($f==$fileName)
-                                            @foreach($ls as $l)
-                                                <div>
-                                                    @if(strpos($l,"."))
-                                                        <a href="{{route('editFile',['oldPath'=>$path,'path'=>$path.'/'.$f,'oldFileName'=>$f,'fileName'=>$l])}}"><i
-                                                                    class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;{{$l}}
-                                                        </a>
-                                                    @else
-                                                        <a href="{{route('subDirectory',['fullPath'=>$newPaths."/".$l])}}"><i
-                                                                    class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;{{$l}}
-                                                        </a>
+                            @if(!empty($fs))
+                                @if(is_array($fs))
+                                    @foreach($fs as $f)
+                                        <div class="main">
+                                            @if(!empty($fileName))
+                                                @if($f==$fileName)
+                                                    @if(!empty($ls))
+                                                        @if(is_array($ls))
+                                                            @foreach($ls as $l)
+                                                                <div>
+                                                                    @if(strpos($l,"."))
+                                                                        <a href="{{route('editFile',['oldPath'=>$path,'path'=>$path.'/'.$f,'oldFileName'=>$f,'fileName'=>$l])}}"><i
+                                                                                    class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;{{$l}}
+                                                                        </a>
+                                                                    @else
+                                                                        <a href="{{route('subDirectory',['fullPath'=>$newPaths."/".$l])}}"><i
+                                                                                    class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;{{$l}}
+                                                                        </a>
+                                                                    @endif
+                                                                </div>
+                                                            @endforeach
+                                                        @endif
                                                     @endif
-                                                </div>
-                                            @endforeach
-                                        @endif
-                                    @else
-                                        <p><a href="{{route('readFile',['path'=>$path,'fileName'=>$f])}}"><i
-                                                        class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;{{$f}}
-                                            </a>
-                                        </p>
-                                    @endif
-                                </div>
-                            @endforeach
+                                                @endif
+                                            @else
+                                                <p><a href="{{route('readFile',['path'=>$path,'fileName'=>$f])}}"><i
+                                                                class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;{{$f}}
+                                                    </a>
+                                                </p>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                @endif
+                            @endif
                         </div>
                         <div class="list" style="height: 200px;overflow-x: auto;"></div>
                     </div>
@@ -183,6 +257,15 @@
                         <label for="">Item Name</label>
                         <input type="text" name="" id="fileName" class="form-control">
                     </div>
+
+                    <div class="progress hidden">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45"
+                             aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                        </div>
+                    </div>
+                    <div class="alert alert-success hidden"></div>
+                    <div class="alert alert-danger hidden"></div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -193,7 +276,88 @@
     </div><!-- /.modal -->
     <script type="text/javascript">
         $("#saveItem").click(function () {
-            alert(1)
+            var path = $("#path").val();
+            var fileName = $("#fileName").val();
+            if (path == "") {
+                alert("Please enter path name");
+                return;
+            }
+            if (fileName == "") {
+                alert("Please enter file name");
+                return;
+            }
+            /*
+            Function create folder
+             */
+            if (type == 'create_folder') {
+                jQuery.ajax({
+                    url: "{{route('createFolder')}}",
+                    type: "GET",
+                    dataType: "json",
+                    data: {path: path, fileName: fileName},
+                    beforeSend: function () {
+                        $(".progress").removeClass('hidden');
+                    },
+                    success: function (data) {
+                        $(".progress").addClass('hidden');
+                        $(".alert-success").removeClass('hidden');
+                        $(".alert-success").text(data);
+
+
+                    },
+                    complete: function (data) {
+                        $(".progress").addClass('hidden');
+                        $(".alert-success").removeClass('hidden');
+                        $(".alert-success").text(data.responseText);
+                        setTimeout(function () {
+                                window.location.reload();
+                        },500);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            }
+            /*
+            End function create folder
+            ======================================
+            /*
+            Function create file
+             */
+            if(type=='create_file'){
+
+                if(fileName.indexOf(".")=="-1"){
+                   alert("Please add extension of file");
+                   return;
+                }
+                jQuery.ajax({
+                    url: "{{route('createFile')}}",
+                    type: "GET",
+                    dataType: "json",
+                    data: {path: path, fileName: fileName},
+                    beforeSend: function () {
+                        $(".progress").removeClass('hidden');
+                    },
+                    success: function (data) {
+                        $(".progress").addClass('hidden');
+                        $(".alert-success").removeClass('hidden');
+                        $(".alert-success").text(data);
+
+
+                    },
+                    complete: function (data) {
+                        $(".progress").addClass('hidden');
+                        $(".alert-success").removeClass('hidden');
+                        $(".alert-success").text(data.responseText);
+                        setTimeout(function () {
+                            window.location.reload();
+                        },500);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            }
         });
     </script>
 @stop

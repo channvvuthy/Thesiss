@@ -49,8 +49,10 @@
 <body>
 <script type="text/javascript">
     var type="";
+    var path="";
     $('body').on('click', '#subContextMenu li', function () {
         var defualtLocation = $("#exampleInputAmount").val();
+        path=defualtLocation;
         var attr = $(this).attr('data');
         type=attr;
         $("#path").val(defualtLocation);

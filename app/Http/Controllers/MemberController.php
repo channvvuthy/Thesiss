@@ -63,27 +63,11 @@ class MemberController extends Controller
 
     public function getCreateBase(){
         $path='C:\xampp\htdocs\MyThesis\base_pattern\Apri 2017';
-        $fs=$this->openDir($path);
+       $fs=$this->openDir($path);
         return view('member.createBase')->withFs($fs)->withPath($path);
     }
 
-    public function openDir($dir=null){
-        try{
-            $folders="";
-            if(!empty($dir)){
-                $ds=scandir($dir);
-                foreach ($ds as $d){
-                    if($d!="." && $d!=".."){
-                        $folders[]=$d;
-                    }
-                }
-                return $folders;
 
-            }
-        }catch (\Exception $ex){
-            return $ex->getMessage();
-        }
-    }
     public function getListFolder(Request $request){
         if($request->ajax()){
             $folder=$request->f;
@@ -93,10 +77,14 @@ class MemberController extends Controller
     }
 
     public function getReadFile($pathNew,$fileName){
+        $replace='"\"';
+        $replace=str_replace('"',"",$replace);
+        $pF=$pathNew.$replace.$fileName;
         $path='C:\xampp\htdocs\MyThesis\base_pattern\Apri 2017';
         $fs=$this->openDir($path);
+        $mode="readFile";
         $ls=$this->openDir($pathNew.'/'.$fileName);
-        return view('member.createBase')->withFs($fs)->withPath($path)->withLs($ls)->with('fileName',$fileName)->with('newPaths',$pathNew);
+        return view('member.createBase')->withFs($fs)->withPath($path)->withLs($ls)->with('fileName',$fileName)->with('newPaths',$pF)->with('mode',$mode);
     }
 
     public function getEditFile(Request $request){
@@ -124,7 +112,10 @@ class MemberController extends Controller
 
     public function getReadDirectory(Request $request){
 
+        $replace='"\"';
+        $replace=str_replace('"',"",$replace);
         $fullPath=$request->fullPath;
+        $fullPath=str_replace("/",$replace,$fullPath);
         $filePaths=$this->openDir($fullPath);
         return view('member.memberSubDirectory')->with('fullPath',$fullPath)->with('filePaths',$filePaths);
     }
@@ -143,6 +134,55 @@ class MemberController extends Controller
             return redirect()->back()->withInput()->withErrors(['notice'=>'file saved']);
         }catch (\Exception $ex){
             return redirect()->back()->withInput()->withErrors(['error'=>$ex->getMessage()]);
+        }
+    }
+
+
+    public function getCreateFolder(Request $request){
+        if($request->ajax()){
+            $path=$request->path;
+            $fileName=$request->fileName;
+            try{
+                if(mkdir($path.'/'.$fileName,0777,true)){
+                    return "Directory has been created!";
+                }
+            }catch (\Exception $ex){
+                return $ex->getMessage();
+            }
+        }
+    }
+
+    public function getCreateFile(Request $request){
+        if($request->ajax()){
+            $path=$request->path;
+            $fileName=$request->fileName;
+            try{
+                $myFile = fopen($path.'/'.$fileName,"w");
+                fwrite($myFile,$fileName);
+                fclose($myFile);
+                return "File has been created!";
+            }catch (\Exception $ex){
+                return $ex->getMessage();
+            }
+
+        }
+    }
+
+    public function openDir($dir=null){
+        try{
+            $folders="";
+            if(!empty($dir)){
+                $ds=scandir($dir);
+                foreach ($ds as $d){
+                    if($d!="." && $d!=".."){
+                        $folders[]=$d;
+                    }
+                }
+                return $folders;
+
+            }
+        }catch (\Exception $ex){
+            return $ex->getMessage();
         }
     }
 }

@@ -297,17 +297,26 @@ Route::post('save-file', [
 ]);
 Route::get('sub-directory', [
     'uses' => 'MemberController@getReadDirectory',
-    'as'=>'subDirectory'
+    'as' => 'subDirectory'
 ]);
 
-Route::get('edit-file-sub-directory',[
-    'uses'=>'MemberController@getEditFileSubDirectory',
+Route::get('edit-file-sub-directory', [
+    'uses' => 'MemberController@getEditFileSubDirectory',
 
-    'as'=>'editFileSubDirectory'
+    'as' => 'editFileSubDirectory'
 ]);
-Route::post('save-directory-file',[
-    'uses'=>'MemberController@postSaveDirectoryFile',
-    'as'=>'saveDirectoryFile'
+Route::post('save-directory-file', [
+    'uses' => 'MemberController@postSaveDirectoryFile',
+    'as' => 'saveDirectoryFile'
+]);
+
+Route::get('create-folder', [
+    'uses' => 'MemberController@getCreateFolder',
+    'as' => 'createFolder'
+]);
+Route::get('create-file', [
+    'uses' => 'MemberController@getCreateFile',
+    'as' => 'createFile'
 ]);
 
 
