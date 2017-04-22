@@ -94,6 +94,7 @@
                     </tbody>
                 </table>
             </div>
+            {{$variations->render()}}
         </div>
     </div>
 

@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use App\Models\Pattern;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\Variation;
+use File;
 
 class LeaderController extends Controller
 {
     public function getIndex()
     {
-        return view('leader.index');
+        $groups=Group::where('status','1')->get();
+        return view('leader.index')->withGroups($groups);
     }
 
     public function getCreateBaseType()
@@ -75,7 +78,7 @@ class LeaderController extends Controller
     {
 
         $variations = Variation::where('status', '1')->get();
-        $patterns=Pattern::where('status','1')->paginate(10);
+        $patterns=Pattern::paginate(10);
         return view('leader.pattern')->withVariations($variations)->withPatterns($patterns);
     }
 
@@ -122,6 +125,50 @@ class LeaderController extends Controller
         return view('leader.editPattern')->withPattern($pattern)->withVariations($variations);
     }
     public function postUpdatePattern(Request $request){
+        $pattern=Pattern::find($request->id);
+        $patternFile=$request->patternFile;
+        if(!empty($patternFile)){
+            $fileName=time().$patternFile->getClientOriginalName();
+            $ex=explode(".",$fileName);
+            $ex=end($ex);
+            if($ex=="zip" || $ex=="ra"){
+                $patternFile->move('uploads/',$fileName);
 
+            }else{
+                return redirect()->back()->withInput()->withErrors(['patternFile'=>'File allow only zip and ra']);
+            }
+            $pattern->variation_id=$request->variation;
+            $pattern->name=$request->patternName;
+            $pattern->url=$request->patternURL;
+            $pattern->file_name=$fileName;
+            $pattern->description=$request->patternDescription;
+            File::delete('uploads/'.$pattern->file_name);
+            $pattern->save();
+        }else{
+
+            $pattern->variation_id=$request->variation;
+            $pattern->name=$request->patternName;
+            $pattern->url=$request->patternURL;
+            $pattern->description=$request->patternDescription;
+            $pattern->save();
+        }
+        return redirect()->route('createPattern')->withInput()->withErrors(['notice'=>'pattern update complete']);
+    }
+
+    public function getActivePattern($id){
+        $pattern=Pattern::find($id);
+        if($pattern->status=="1"){
+            $pattern->status="0";
+        }else{
+            $pattern->status="1";
+        }
+        $pattern->save();
+        return redirect()->route('createPattern')->withInput()->withErrors(['notice'=>'pattern has been updated']);
+    }
+
+    public function getDeletePattern($id){
+        $pattern=Pattern::find($id);
+        $pattern->delete();
+        return redirect()->route('createPattern')->withInput()->withErrors(['notice'=>'pattern has been deleted']);
     }
 }

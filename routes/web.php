@@ -188,19 +188,126 @@ Route::group(['prefix' => 'leader'], function () {
             'uses' => 'LeaderController@getEditPattern',
             'as' => 'editPattern'
         ]);
-        Route::post('update-pattern',[
-            'uses'=>'LeaderController@postUpdatePattern',
-            'as'=>'updatePattern'
+        Route::post('update-pattern', [
+            'uses' => 'LeaderController@postUpdatePattern',
+            'as' => 'updatePattern'
         ]);
         Route::get('delete-pattern/{id}', [
             'uses' => 'LeaderController@getDeletePattern',
             'as' => 'deletePattern'
         ]);
-        Route::get('active-pattern',[
-           'uses'=>'LeaderController@getActivePattern',
-            'as'=>'activePattern'
+        Route::get('active-pattern/{id}', [
+            'uses' => 'LeaderController@getActivePattern',
+            'as' => 'activePattern'
+        ]);
+        Route::get('create-layout', [
+            'uses' => 'LayoutController@getLayout',
+            'as' => 'createLayout'
+        ]);
+        Route::post('create-layout', [
+            'uses' => 'LayoutController@postLayout'
+        ]);
+        Route::get('active-layout/{id}', [
+            'uses' => 'LayoutController@getActiveLayout',
+            'as' => 'activeLayout'
+        ]);
+        Route::get('delete-layout/{id}', [
+            'uses' => 'LayoutController@getDeleteLayout',
+            'as' => 'deleteLayout'
+        ]);
+        Route::get('edit-layout/{id}', [
+            'uses' => 'LayoutController@getEditLayout',
+            'as' => 'editLayout'
+        ]);
+        Route::post('update-layout', [
+            'uses' => 'LayoutController@postUpdateLayout',
+            'as' => 'updateLayout'
+        ]);
+
+        Route::get('upload-layout', [
+            'uses' => 'LayoutController@getUploadLayout',
+            'as' => 'uploadLayout'
+        ]);
+        Route::post('upload-layout', [
+            'uses' => 'LayoutController@postUploadLayout'
+        ]);
+        Route::get('preview-file/{name}/{type}', [
+            'uses' => 'LayoutController@getPreview',
+            'as' => 'previewFile'
+        ]);
+        Route::get('base-member', [
+            'uses' => 'MemberController@getBaseMember',
+            'as' => 'getMemberBase'
+        ]);
+        Route::get('get-variation-default', [
+            'uses' => 'MemberController@getVariationDefault',
+            'as' => 'getVariationDefault'
+        ]);
+        Route::post('assign-member', [
+            'uses' => 'MemberController@getAssignMember',
+            'as' => 'assignMember'
+        ]);
+
+        Route::get('edit-base-assign/{id}', [
+            'uses' => 'MemberController@getBaseAssign',
+            'as' => 'editBaseAssign'
+        ]);
+        Route::get('delete-base-assign/{id}', [
+            'uses' => 'MemberController@getDeleteBaseAssign',
+            'as' => 'deleteBaseAssign'
         ]);
 
     });
 
 });
+
+Route::group(['prefix' => 'member'], function () {
+    Route::get('/', [
+        'uses' => 'MemberController@getIndex',
+        'as' => 'member.index'
+    ]);
+
+    Route::get('create-base', [
+        'uses' => 'MemberController@getCreateBase',
+        'as' => 'createBase'
+    ]);
+
+});
+/*
+ * List folder
+ *
+ * */
+Route::get('list-folder', [
+    'uses' => 'MemberController@getListFolder',
+    'as' => 'listFolder'
+]);
+Route::get('read-file/{path}/{fileName}', [
+    'uses' => 'MemberController@getReadFile',
+    'as' => 'readFile'
+]);
+
+Route::get('edit-file', [
+    'uses' => 'MemberController@getEditFile',
+    'as' => 'editFile'
+]);
+
+Route::post('save-file', [
+    'uses' => 'MemberController@postSaveFile',
+    'as' => 'saveFile'
+]);
+Route::get('sub-directory', [
+    'uses' => 'MemberController@getReadDirectory',
+    'as'=>'subDirectory'
+]);
+
+Route::get('edit-file-sub-directory',[
+    'uses'=>'MemberController@getEditFileSubDirectory',
+
+    'as'=>'editFileSubDirectory'
+]);
+Route::post('save-directory-file',[
+    'uses'=>'MemberController@postSaveDirectoryFile',
+    'as'=>'saveDirectoryFile'
+]);
+
+

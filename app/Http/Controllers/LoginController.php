@@ -27,7 +27,7 @@ class LoginController extends Controller
                 }elseif($role->permission=='leader'){
                     return redirect()->route('leader.index');
                 }elseif($role->permission=='member'){
-                    return "member";
+                    return redirect()->route('member.index');
                 }
             }
 

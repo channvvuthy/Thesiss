@@ -9,4 +9,8 @@ class Pattern extends Model
     public  function variation(){
         return $this->belongsTo('App\Models\Variation');
     }
+
+    public function users(){
+        return $this->belongsToMany('App\Models\User','user_patterns');
+    }
 }

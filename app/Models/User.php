@@ -39,4 +39,7 @@ class User extends Authenticatable
     public function group(){
         return $this->belongsTo("App\Models\Group");
     }
+    public function patterns(){
+        return $this->belongsToMany('App\Models\Pattern','user_patterns');
+    }
 }
