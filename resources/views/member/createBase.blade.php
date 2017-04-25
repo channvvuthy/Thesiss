@@ -58,18 +58,25 @@
                                                 <th>Name</th>
                                                 <th>URL</th>
                                                 <th>File</th>
+                                                <th>Description</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             @foreach(Auth::user()->patterns as $pattern)
                                                 <tr>
-                                                    <td>{{$pattern->name}}</td>
+                                                    <td><input type="radio" name="variation" class="variation" data="{{$pattern->variation->id}}-{{$pattern->id}}">{{$pattern->name}}</td>
                                                     <td>
                                                         <div style="width: 250px;overflow-x: auto"><a
                                                                     href="{{$pattern->url}}">{{$pattern->url}}</a></div>
                                                     </td>
                                                     <td>
                                                         <a href="{{asset('uploads')}}/{{$pattern->file_name}}">{{$pattern->file_name}}</a>
+                                                    </td>
+                                                    <td>
+                                                        <div style="width: 150px;overflow-x: auto">
+                                                            {!!$pattern->description!!}
+                                                        </div>
+
                                                     </td>
 
                                                 </tr>
@@ -100,8 +107,15 @@
                                                    value="@if(!empty($leaderPath)){{$leaderPath->path}} @endif">
                                         </div>
                                         <div class="form-group">
-                                            <div class="pregress">
-                                                <div class="progress-bar"></div>
+                                            <div class="progress hidden" id="savingFile">
+                                                <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                                     aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
+                                                     style="width:100%">
+                                                    Saving File...
+                                                </div>
+                                            </div>
+                                            <div class="alert alert-success message hidden">
+                                                File has been save success
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -270,6 +284,7 @@
                         <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45"
                              aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                         </div>
+
                     </div>
                     <div class="alert alert-success hidden"></div>
                     <div class="alert alert-danger hidden"></div>
@@ -367,7 +382,15 @@
                 });
             }
         });
+        var variation="";
+        $(".variation").click(function () {
+            variation=$(this).attr('data');
+        });
         $(".copyAndSave").click(function () {
+            if(variation==""){
+                alert("Please select pattern");
+                return;
+            }
             var string = "";
             var total = $(".total").attr('data');
             for (var i = 0; i <= 6; i++) {
@@ -383,18 +406,17 @@
                 url: "{{route('copayAndSave')}}",
                 type: "GET",
                 dataType: "json",
-                data: {path: path, leaderPath: leaderPath, string: string},
+                data: {path: path, leaderPath: leaderPath, string: string,variation:variation},
                 beforeSend: function () {
-
+                    $("#savingFile").removeClass("hidden");
                 },
                 success: function (data) {
-                    console.log(data)
+                    //console.log(data);
+                    $("#savingFile").removeClass("hidden");
                 },
                 complete: function (data) {
-                    console.log(data)
-                },
-                error: function () {
-
+                    $("#savingFile").addClass("hidden");
+                    $(".message").removeClass('hidden');
                 }
             });
 

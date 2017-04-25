@@ -13,4 +13,8 @@ class Pattern extends Model
     public function users(){
         return $this->belongsToMany('App\Models\User','user_patterns');
     }
+
+    public function  bases(){
+        return $this->hasMany("App\Models\Base");
+    }
 }

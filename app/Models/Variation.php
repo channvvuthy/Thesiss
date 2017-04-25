@@ -9,4 +9,8 @@ class Variation extends Model
     public  function pattern(){
         return $this->hasMany("App\Models\Pattern");
     }
+
+    public function bases(){
+        return $this->hasMany("App\Models\Base");
+    }
 }

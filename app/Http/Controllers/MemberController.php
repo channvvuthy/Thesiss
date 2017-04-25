@@ -9,6 +9,7 @@ use DB;
 use App\Models\UserPattern;
 use App\Models\Path;
 use Auth;
+use App\Models\Base;
 
 class MemberController extends Controller
 {
@@ -93,10 +94,11 @@ class MemberController extends Controller
 
     public function getReadFile($pathNew, $fileName)
     {
+
         $replace = '"\"';
         $replace = str_replace('"', "", $replace);
         $pF = $pathNew . $replace . $fileName;
-        $path = Auth::user()->path->path;
+        $path = Auth::user()->path->path?:"C:".$replace;
         $fs = $this->openDir($path);
         $mode = "readFile";
         $ls = $this->openDir($pathNew . '/' . $fileName);
@@ -241,6 +243,10 @@ class MemberController extends Controller
         if (!empty($orders)) {
             $orders = rtrim($orders, ",");
             $orders = explode(",", $orders);
+            $variation=$request->variation;
+            $variation=explode("-",$variation);
+            $variation_id=$variation[0];
+            $patter_id=$variation[1];
             foreach ($orders as $order) {
                 $file = fopen('auth/' . Auth::user()->name . '.bat', "w");
                 fwrite($file, "mkdir " . $leaderPath . $replace . $order);
@@ -256,20 +262,14 @@ class MemberController extends Controller
                 fwrite($file, $copy . '"' . $from . $replace . $order . '"' . ' ' . '"' . $to . $replace . $order . '"' . ' /h/i/c/k/e/r/y');
                 fclose($file);
                 exec('auth/' . Auth::user()->name . '.bat');
+                $base =new Base();
+                $base->user_id=Auth::user()->id;
+                $base->pattern_id=$patter_id;
+                $base->variation_id=$variation_id;
+                $base->name=$order;
+                $base->save();
             }
         }
-//        $file=fopen('auth/'.Auth::user()->name.'.bat',"w");
-//        $copy="xcopy ";
-//        $replace = '"\"';
-//        $replace = str_replace('"', "", $replace);
-//        $from=$request->path;
-//        $from=str_replace("/",$replace,$from);
-//        $to=$request->leaderPath;
-//        $to=str_replace("/",$replace,$to);
-//        fwrite($file,$copy.'"'.$from.'"'.' '.'"'.$to.'"'.' /h/i/c/k/e/r/y');
-//        fclose($file);
-//        exec('auth/'.Auth::user()->name.'.bat');
-
 
     }
 

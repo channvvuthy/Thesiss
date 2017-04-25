@@ -5,7 +5,7 @@
 
             <li><a href=""><img src="{{asset('icon/1490903058_circle-dashboard-meter-fuel-gauge-outline-stroke.png')}}" alt=""> Dashboard</a></li>
             <li><a href="{{route('createPath')}}"><img src="{{asset('icon/1490903058_circle-dashboard-meter-fuel-gauge-outline-stroke.png')}}" alt=""> Your Directory</a></li>
-            <li><a href="{{route('createBase')}}"><img src="{{asset('icon/variation.PNG')}}" alt="">Create Base
+            <li><a href="@if(Auth::check()) @if(!empty(Auth::user()->path)){{route('createBase')}} @else {{route('createPath')}}@endif @endif"><img src="{{asset('icon/variation.PNG')}}" alt="">Create Base
                 </a></li>
 
 
