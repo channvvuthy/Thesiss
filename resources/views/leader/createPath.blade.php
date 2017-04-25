@@ -4,7 +4,7 @@
 @stop
 @section('content')
     @include('layout.leaders.widget.header')
-    @include('layout.member.widget.navbar')
+    @include('layout.leaders.widget.navbar')
     <div class="col-md-10">
         <div class="pangasu float">
             <ul class="list-unstyled">
@@ -14,7 +14,7 @@
         </div>
         <div class="clearfix clear-top-normal" style="margin-top:15px;"></div>
 
-        <form action="{{route('createPath')}}" class="SystemForm" method="post" enctype="multipart/form-data">
+        <form action="{{route('baseDirectory')}}" class="SystemForm" method="post" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{Session::token()}}">
             @if($errors->first('notice'))
                 <div class="alert alert-success">{{$errors->first('notice')}}</div>

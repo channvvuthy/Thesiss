@@ -3,19 +3,14 @@
 
         @if(Auth::user()->group['type']=='base')
 
-            <li><a href=""><img src="{{asset('icon/1490903058_circle-dashboard-meter-fuel-gauge-outline-stroke.png')}}"
-                                alt=""> Dashboard</a></li>
-            <li><a href="{{route('createBaseType')}}"><img src="{{asset('icon/variation.PNG')}}" alt="">Create Variation
+            <li><a href=""><img src="{{asset('icon/1490903058_circle-dashboard-meter-fuel-gauge-outline-stroke.png')}}" alt=""> Dashboard</a></li>
+            <li><a href="{{route('createPath')}}"><img src="{{asset('icon/1490903058_circle-dashboard-meter-fuel-gauge-outline-stroke.png')}}" alt=""> Your Directory</a></li>
+            <li><a href="{{route('createBase')}}"><img src="{{asset('icon/variation.PNG')}}" alt="">Create Base
                 </a></li>
-            <li><a href="{{route('createPattern')}}"><img src="{{asset('icon/pattern.png')}}" alt="">Create Pattern</a>
-            </li>
 
-            <li><a href="{{route('createLayout')}}"><img src="{{asset('icon/layout.png')}}" alt="">Layout Name</a>
+
+            <li><a href="{{route('createLayout')}}"><img src="{{asset('icon/layout.png')}}" alt="">Your Base</a>
             </li>
-            <li><a href="{{route('uploadLayout')}}"><img src="{{asset('icon/1489860445_ic_history_48px.png')}}" alt="">Upload
-                    Layout</a></li>
-            <li><a href="{{route('getMemberBase')}}"><img src="{{asset('icon/11489856481_user.png')}}">Assign Base Pattern</a></li>
-            <li><a href="{{route('getMemberBase')}}"><img src="{{asset('icon/11489856481_user.png')}}">All Base</a></li>
             <li><a href="{{route('logout')}}"><img src="{{asset('icon/1489860783_SignOut.png')}}" alt=""> Logout</a>
             </li>
         @endif

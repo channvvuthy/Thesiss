@@ -16,6 +16,8 @@
                     Layout</a></li>
             <li><a href="{{route('getMemberBase')}}"><img src="{{asset('icon/11489856481_user.png')}}">Assign Base Pattern</a></li>
             <li><a href="{{route('getMemberBase')}}"><img src="{{asset('icon/11489856481_user.png')}}">All Base</a></li>
+            <li><a href="{{route('baseDirectory')}}"><img src="{{asset('icon/pattern.png')}}" alt="">Directory</a>
+            </li>
             <li><a href="{{route('logout')}}"><img src="{{asset('icon/1489860783_SignOut.png')}}" alt=""> Logout</a>
             </li>
         @endif

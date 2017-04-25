@@ -256,6 +256,14 @@ Route::group(['prefix' => 'leader'], function () {
             'uses' => 'MemberController@getDeleteBaseAssign',
             'as' => 'deleteBaseAssign'
         ]);
+        Route::get('base-directory', [
+            'uses' => 'LeaderController@getBaseDirectory',
+            'as' => 'baseDirectory'
+        ]);
+        Route::post('base-directory', [
+            'uses' => 'LeaderController@postBaseDirectory',
+
+        ]);
 
     });
 
@@ -271,52 +279,63 @@ Route::group(['prefix' => 'member'], function () {
         'uses' => 'MemberController@getCreateBase',
         'as' => 'createBase'
     ]);
-
-});
-/*
+    /*
  * List folder
  *
  * */
-Route::get('list-folder', [
-    'uses' => 'MemberController@getListFolder',
-    'as' => 'listFolder'
-]);
-Route::get('read-file/{path}/{fileName}', [
-    'uses' => 'MemberController@getReadFile',
-    'as' => 'readFile'
-]);
+    Route::get('list-folder', [
+        'uses' => 'MemberController@getListFolder',
+        'as' => 'listFolder'
+    ]);
+    Route::get('read-file/{path}/{fileName}', [
+        'uses' => 'MemberController@getReadFile',
+        'as' => 'readFile'
+    ]);
 
-Route::get('edit-file', [
-    'uses' => 'MemberController@getEditFile',
-    'as' => 'editFile'
-]);
+    Route::get('edit-file', [
+        'uses' => 'MemberController@getEditFile',
+        'as' => 'editFile'
+    ]);
 
-Route::post('save-file', [
-    'uses' => 'MemberController@postSaveFile',
-    'as' => 'saveFile'
-]);
-Route::get('sub-directory', [
-    'uses' => 'MemberController@getReadDirectory',
-    'as' => 'subDirectory'
-]);
+    Route::post('save-file', [
+        'uses' => 'MemberController@postSaveFile',
+        'as' => 'saveFile'
+    ]);
+    Route::get('sub-directory', [
+        'uses' => 'MemberController@getReadDirectory',
+        'as' => 'subDirectory'
+    ]);
 
-Route::get('edit-file-sub-directory', [
-    'uses' => 'MemberController@getEditFileSubDirectory',
+    Route::get('edit-file-sub-directory', [
+        'uses' => 'MemberController@getEditFileSubDirectory',
 
-    'as' => 'editFileSubDirectory'
-]);
-Route::post('save-directory-file', [
-    'uses' => 'MemberController@postSaveDirectoryFile',
-    'as' => 'saveDirectoryFile'
-]);
+        'as' => 'editFileSubDirectory'
+    ]);
+    Route::post('save-directory-file', [
+        'uses' => 'MemberController@postSaveDirectoryFile',
+        'as' => 'saveDirectoryFile'
+    ]);
 
-Route::get('create-folder', [
-    'uses' => 'MemberController@getCreateFolder',
-    'as' => 'createFolder'
-]);
-Route::get('create-file', [
-    'uses' => 'MemberController@getCreateFile',
-    'as' => 'createFile'
-]);
+    Route::get('create-folder', [
+        'uses' => 'MemberController@getCreateFolder',
+        'as' => 'createFolder'
+    ]);
+    Route::get('create-file', [
+        'uses' => 'MemberController@getCreateFile',
+        'as' => 'createFile'
+    ]);
 
+    Route::get('create-path', [
+        'uses' => 'MemberController@getCreatePath',
+        'as' => 'createPath'
+    ]);
+    Route::post('create-path', [
+        'uses' => 'MemberController@postCreatePath',
+        'as' => 'createPath'
+    ]);
 
+    Route::get('copy-and-save', [
+        'uses' => 'MemberController@getCopyAndSave',
+        'as' => 'copayAndSave'
+    ]);
+});

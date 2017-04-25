@@ -81,24 +81,32 @@
                                     <hr>
                                     @if(!empty($fs))
                                         @php $i=0;@endphp
-                                        @foreach($fs as $f)
+                                        @if(is_array($fs))
+                                            @foreach($fs as $f)
 
-                                            @if(!strpos($f,"."))
-                                                <label class="checkbox-inline"><input type="checkbox" value="{{$f}}"
-                                                                                      name="base" id="base_{{$i}}">
-                                                    <p></p><b>{{$f}}</b></label>
-                                                @php $i++;@endphp
-                                            @endif
-                                        @endforeach
+                                                @if(!strpos($f,"."))
+                                                    <label class="checkbox-inline"><input type="checkbox" value="{{$f}}"
+                                                                                          name="base" id="base_{{$i}}">
+                                                        <p></p><b>{{$f}}</b></label>
+                                                    @php $i++;@endphp
+                                                @endif
+                                            @endforeach
+                                        @endif
                                         <div class="total" data="{{$i}}"></div>
                                         <hr>
                                         <div class="form-group">
                                             <label for="">Leader Path</label>
-                                            <input type="text" name="leaderPath" id="" class="form-control"
-                                                   placeholder="C:\xampp\htdocs\MyThesis">
+                                            <input type="text" name="leaderPath" id="leaderPath" class="form-control"
+                                                   value="@if(!empty($leaderPath)){{$leaderPath->path}} @endif">
                                         </div>
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-success">Copy and Save</button>
+                                            <div class="pregress">
+                                                <div class="progress-bar"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-success copyAndSave">Copy and Save
+                                            </button>
                                         </div>
 
                                     @endif
@@ -114,7 +122,7 @@
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="glyphicon glyphicon-home"></i></div>
                                     <input type="text" class="form-control folderList" id="exampleInputAmount"
-                                           value="C:\xampp\htdocs\MyThesis\base_pattern\Apri 2017">
+                                           value="@if(!empty(Auth::user()->path)){{Auth::user()->path->path}} @endif">
 
                                 </div>
                             </div>
@@ -287,7 +295,7 @@
                 return;
             }
             /*
-            Function create folder
+             Function create folder
              */
             if (type == 'create_folder') {
                 jQuery.ajax({
@@ -310,8 +318,8 @@
                         $(".alert-success").removeClass('hidden');
                         $(".alert-success").text(data.responseText);
                         setTimeout(function () {
-                                window.location.reload();
-                        },500);
+                            window.location.reload();
+                        }, 500);
                     },
                     error: function (data) {
                         console.log(data);
@@ -319,16 +327,16 @@
                 });
             }
             /*
-            End function create folder
-            ======================================
-            /*
-            Function create file
+             End function create folder
+             ======================================
+             /*
+             Function create file
              */
-            if(type=='create_file'){
+            if (type == 'create_file') {
 
-                if(fileName.indexOf(".")=="-1"){
-                   alert("Please add extension of file");
-                   return;
+                if (fileName.indexOf(".") == "-1") {
+                    alert("Please add extension of file");
+                    return;
                 }
                 jQuery.ajax({
                     url: "{{route('createFile')}}",
@@ -351,7 +359,7 @@
                         $(".alert-success").text(data.responseText);
                         setTimeout(function () {
                             window.location.reload();
-                        },500);
+                        }, 500);
                     },
                     error: function (data) {
                         console.log(data);
@@ -359,5 +367,38 @@
                 });
             }
         });
+        $(".copyAndSave").click(function () {
+            var string = "";
+            var total = $(".total").attr('data');
+            for (var i = 0; i <= 6; i++) {
+                var qcheck = $('#base_' + i + '');
+                if (qcheck.is(":checked")) {
+                    string += qcheck.val() + ',';
+                }
+
+            }
+            var path = $("#exampleInputAmount").val();
+            var leaderPath = $("#leaderPath").val();
+            jQuery.ajax({
+                url: "{{route('copayAndSave')}}",
+                type: "GET",
+                dataType: "json",
+                data: {path: path, leaderPath: leaderPath, string: string},
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    console.log(data)
+                },
+                complete: function (data) {
+                    console.log(data)
+                },
+                error: function () {
+
+                }
+            });
+
+        });
+
     </script>
 @stop

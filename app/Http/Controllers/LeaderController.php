@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\Path;
 use App\Models\Pattern;
 use Illuminate\Http\Request;
 use Auth;
@@ -170,5 +171,35 @@ class LeaderController extends Controller
         $pattern=Pattern::find($id);
         $pattern->delete();
         return redirect()->route('createPattern')->withInput()->withErrors(['notice'=>'pattern has been deleted']);
+    }
+
+    public function getBaseDirectory(){
+        $path=Path::where('user_id',Auth::user()->id)->first();
+        return view('leader.createPath')->with('path',$path);
+    }
+
+    public function postBaseDirectory(Request $request){
+        $path=Path::where('user_id',Auth::user()->id)->first();
+        $this->validate($request,[
+            'pathName'=>'required',
+            'pathDescription'=>'required'
+        ]);
+        if(!empty($path)){
+            $path->path=$request->pathName;
+            $path->user_id=Auth::user()->id;
+            $path->description=$request->pathDescription;
+            $path->path_for='base';
+            $path->save();
+            return redirect()->back()->withInput()->withErrors(['notice'=>'directory has been updated!']);
+        }else{
+            $path=new Path();
+            $path->path=$request->pathName;
+            $path->user_id=Auth::user()->id;
+            $path->description=$request->pathDescription;
+            $path->path_for='base';
+            $path->save();
+            return redirect()->back()->withInput()->withErrors(['notice'=>'directory has been created!']);
+
+        }
     }
 }

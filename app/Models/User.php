@@ -42,4 +42,7 @@ class User extends Authenticatable
     public function patterns(){
         return $this->belongsToMany('App\Models\Pattern','user_patterns');
     }
+    public function path(){
+        return $this->hasOne('App\Models\Path');
+    }
 }

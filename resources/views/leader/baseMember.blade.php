@@ -69,7 +69,10 @@
                             @endphp
                             <select name="member[]" id="memberBase" class="form-control" multiple>
                                 @foreach($users as $user)
-                                    <option value="{{$user->id}}">{{$user->name}}</option>
+                                    @if($user->id!=Auth::user()->id)
+                                        <option value="{{$user->id}}">{{$user->name}}</option>
+                                    @endif
+
                                 @endforeach
                             </select>
                             <span class="text-danger">{{$errors->first('member')}}</span>
@@ -106,28 +109,32 @@
                     </tr>
                     </thead>
                     <tbody>
+
                     @foreach($users as $user)
-                        <tr>
-                            <td><a
-                                        href="{{route('deleteBaseAssign',['id'=>$user->id])}}"><img
-                                            src="{{asset('icon/1489864883_Streamline-70.png')}}" alt=""></a></td>
-                            <td>{{$user->id}}</td>
-                            <td>{{$user->name}}</td>
-                            <td>
-                                @foreach($user->patterns as $pattern)
-                                    <p>{{$pattern->name}}</p>
-                                @endforeach
-                            </td>
-                            <td>
-                                <div style="width:150px;overflow-x: auto;">
+                        @if($user->id !=Auth::user()->id)
+                            <tr>
+                                <td><a
+                                            href="{{route('deleteBaseAssign',['id'=>$user->id])}}"><img
+                                                src="{{asset('icon/1489864883_Streamline-70.png')}}" alt=""></a></td>
+                                <td>{{$user->id}}</td>
+                                <td>{{$user->name}}</td>
+                                <td>
                                     @foreach($user->patterns as $pattern)
-                                        <a href="{{$pattern->url}}">{{$pattern->url}}</a>
+                                        <p>{{$pattern->name}}</p>
                                     @endforeach
-                                </div>
-                            </td>
-                            <td></td>
-                        </tr>
+                                </td>
+                                <td>
+                                    <div style="width:150px;overflow-x: auto;">
+                                        @foreach($user->patterns as $pattern)
+                                            <a href="{{$pattern->url}}">{{$pattern->url}}</a>
+                                        @endforeach
+                                    </div>
+                                </td>
+                                <td></td>
+                            </tr>
+                        @endif
                     @endforeach
+
                     </tbody>
                 </table>
             </div>
