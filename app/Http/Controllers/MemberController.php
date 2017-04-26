@@ -274,6 +274,19 @@ class MemberController extends Controller
     }
 
     /*
+    Tool
+    ===========================
+    */
+    public function getTool(){
+        return view('member.tool');
+    }
+    /*
+    get all base of user
+    */
+    public function getMemberViewBase(Request $request){
+        return view('member.getBase');
+    }
+    /*
      * Read directory
      */
 

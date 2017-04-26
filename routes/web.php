@@ -338,4 +338,14 @@ Route::group(['prefix' => 'member'], function () {
         'uses' => 'MemberController@getCopyAndSave',
         'as' => 'copayAndSave'
     ]);
+
+    Route::get('tool',[
+        'uses'=>'MemberController@getTool',
+        'as'=>'tool'
+    ]);
+
+    Route::get('member-view-base',[
+        'uses'=>'MemberController@getMemberViewBase',
+        'as'=>'memberViewBase'
+    ]);
 });

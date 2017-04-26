@@ -10,6 +10,7 @@
     <script src="{{asset('js/jquery-1.9.1.js')}}"></script>
     <script src="{{asset('bower_components/bootstrap/dist/js/bootstrap.js')}}"></script>
     <script src="{{asset('bower_components/jquery-validation/dist/jquery.validate.js')}}"></script>
+    @yield('style')
     <link rel="icon" href="{{asset('icon/1489853216_system-users.png')}}">
     <link href="{{asset('css')}}/jquery-ui.css" type="text/css" rel="stylesheet">
     <link href="{{asset('css')}}/jquery-ui.css" type="text/css" rel="stylesheet">
@@ -18,7 +19,7 @@
     <script src="{{asset('tinymce/tinymce.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('js/bootstrap-tagsinput.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('js/select2.min.js')}}" type="text/javascript"></script>
-
+    
     <title>@yield('title')</title>
     <style>
         #contextMenu {
@@ -88,5 +89,6 @@
     var editor = ace.edit("editor");
 
 </script>
+@yield('script')
 </body>
 </html>
