@@ -337,7 +337,7 @@
                         }, 500);
                     },
                     error: function (data) {
-                        console.log(data);
+                       alert(data)
                     }
                 });
             }

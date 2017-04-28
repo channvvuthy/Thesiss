@@ -45,4 +45,7 @@ class User extends Authenticatable
     public function path(){
         return $this->hasOne('App\Models\Path');
     }
+    public function bases(){
+        return $this->hasMany('App\Models\Base');
+    }
 }

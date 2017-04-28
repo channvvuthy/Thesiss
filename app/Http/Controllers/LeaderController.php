@@ -202,4 +202,8 @@ class LeaderController extends Controller
 
         }
     }
+
+    public function getBaseList(Request $request){
+        return view('leader.getBaseList');
+    }
 }

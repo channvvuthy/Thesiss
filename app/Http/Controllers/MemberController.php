@@ -262,14 +262,20 @@ class MemberController extends Controller
                 fwrite($file, $copy . '"' . $from . $replace . $order . '"' . ' ' . '"' . $to . $replace . $order . '"' . ' /h/i/c/k/e/r/y');
                 fclose($file);
                 exec('auth/' . Auth::user()->name . '.bat');
-                $base =new Base();
-                $base->user_id=Auth::user()->id;
-                $base->pattern_id=$patter_id;
-                $base->variation_id=$variation_id;
-                $base->name=$order;
-                $base->save();
+                $check=Base::where('name',$order)->first();
+                if($check==null){
+                    $base =new Base();
+                    $base->user_id=Auth::user()->id;
+                    $base->pattern_id=$patter_id;
+                    $base->variation_id=$variation_id;
+                    $base->name=$order;
+                    $base->your_url=$userPath;
+                    $base->save();
+                }
+                
             }
         }
+        return "Data base been saved";
 
     }
 

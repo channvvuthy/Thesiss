@@ -264,6 +264,10 @@ Route::group(['prefix' => 'leader'], function () {
             'uses' => 'LeaderController@postBaseDirectory',
 
         ]);
+        Route::get('list-base-member',[
+            'uses'=>'LeaderController@getBaseList',
+            'as'=>'listBaseMember'
+        ]);
 
     });
 

@@ -1,1 +1,1 @@
-xcopy "C:\xampp\htdocs\MyThesis\base_pattern\Apri 2017\Pattern4" "C:\xampp\htdocs\MyThesis\leader\Pattern4" /h/i/c/k/e/r/y
+xcopy "C:\xampp\htdocs\MyThesis\base_pattern\May 2017\Pattern 3" "C:\xampp\htdocs\MyThesis\leader\Pattern 3" /h/i/c/k/e/r/y
