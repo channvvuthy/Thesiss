@@ -42,7 +42,7 @@ Member
                         @foreach(Auth::user()->bases as $base)
                         <tr>
                             <td>{{$base->name}}</td>
-                            <td>{{$base->your_url.'/'.$base->name}}</td>
+                            <td class="link"><a href="{{$base->your_url.'/'.$base->name}}/index.php" target="_blank">{{$base->your_url.'/'.$base->name}}</a></td>
                             <td>{{Carbon\Carbon::parse($base->created_at)->format('d/m/Y')}}</td>
                             <td>{{$base->leader_check_name}}</td>
                             <td>

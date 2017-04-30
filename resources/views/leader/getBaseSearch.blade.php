@@ -206,7 +206,6 @@ Leader
                     </tbody>
                     
                 </table>
-                {{ $bases->links() }}
                 
             </div>
             

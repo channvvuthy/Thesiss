@@ -301,6 +301,7 @@
         $("#saveItem").click(function () {
             var path = $("#path").val();
             var fileName = $("#fileName").val();
+            var pathLeader=$(".leaderPath").val();
             if (path == "") {
                 alert("Please enter path name");
                 return;
@@ -309,10 +310,12 @@
                 alert("Please enter file name");
                 return;
             }
+
             /*
              Function create folder
              */
             if (type == 'create_folder') {
+                fileName=fileName.replace(".","_");
                 jQuery.ajax({
                     url: "{{route('createFolder')}}",
                     type: "GET",

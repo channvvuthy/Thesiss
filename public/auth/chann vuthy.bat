@@ -1,0 +1,1 @@
+xcopy "C:\xampp\htdocs\MyThesis\base_pattern\Mar 2017\SSSTS-1505-05023" "C:\xampp\htdocs\MyThesis\leader\SSSTS-1505-05023" /h/i/c/k/e/r/y

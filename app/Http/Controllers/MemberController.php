@@ -269,6 +269,7 @@ class MemberController extends Controller
                     $base->pattern_id=$patter_id;
                     $base->variation_id=$variation_id;
                     $base->name=$order;
+                    $base->url=$leaderPath;
                     $base->your_url=$userPath;
                     $base->save();
                 }

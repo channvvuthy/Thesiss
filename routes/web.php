@@ -268,6 +268,41 @@ Route::group(['prefix' => 'leader'], function () {
             'uses'=>'LeaderController@getBaseList',
             'as'=>'listBaseMember'
         ]);
+        Route::post('list-base-member',[
+            'uses'=>'LeaderController@postBaseList',
+        
+        ]);
+
+        Route::get('save-layout-ajax',[
+            'uses'=>'LeaderController@getSaveLayoutAjax',
+            'as'=>'SaveLayout'
+        ]);
+
+        Route::get('leader-update-base',[
+            'uses'=>'LeaderController@getLeaderUpdateBase',
+            'as'=>'leaderUpdateBase'
+        ]);
+
+        Route::get('base-update-status-leader-check',[
+            'uses'=>'LeaderController@getUpdateStatusBaseLeaderCheck',
+            'as'=>'upateResuleBaseLeaderCheck'
+        ]);
+        Route::get('base-leader-checking-problem',[
+            'uses'=>'LeaderController@getUpdateProblemBase',
+            'as'=>'leaderCheckingProblem'
+        ]);
+        Route::get('leader-update-note',[
+            'uses'=>'LeaderController@getUpdatNote',
+            'as'=>'leaderCheckingNote'
+        ]);
+        Route::get('notification-leader',[
+            'uses'=>'LeaderController@getNotificationLeader',
+            'as'=>'notificationLeader'
+        ]);
+        Route::get('submit-qc',[
+            'uses'=>'LeaderController@getSubmitQC',
+            'as'=>'submitQC'
+        ]);
 
     });
 
@@ -352,4 +387,6 @@ Route::group(['prefix' => 'member'], function () {
         'uses'=>'MemberController@getMemberViewBase',
         'as'=>'memberViewBase'
     ]);
+
+
 });

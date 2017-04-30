@@ -12,4 +12,8 @@ class Group extends Model
     public function users(){
         return $this->hasMany("App\Models\User");
     }
+
+    public function bases(){
+    	return $this->hasMany("App\Models\Base");
+    }
 }

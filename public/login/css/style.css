@@ -152,6 +152,10 @@
 .clear-top-simple{
     margin: 15px 0px;
 }
+.table input{
+    border-color:transparent !important;
+    background: transparent;
+}
 .SystemForm input{
     outline: none;
     height: 35px;
@@ -200,4 +204,134 @@ p b {
     position:absolute;
     left: 32px;
     bottom: 12px;
+}
+.col-md-4.choose{
+    padding-right:0px;
+}
+.col-md-4.choose select{
+    border:1px solid #ddd;
+    padding:5px;
+    width:200px;
+}
+.col-md-4.choose button {
+    border:0px;
+    height:31px;
+    color:#fff;
+    background-color:#57b958;
+    
+}
+.col-md-4.list {
+}
+.col-md-4.list input{
+    padding:0px;
+    width:250px;
+    text-indent:10px;
+    height:30px;
+
+}
+.col-md-4.list button{
+    border:0px;
+    height:30px;
+    background-color:#57b958;
+    color:#fff;
+}
+.col-md-4.search input{
+    height:30px;
+    text-indent:10px;
+    width:250px;
+}
+.col-md-4.search button{
+    background-color:#57b958;
+    border:0px;
+    color:#fff;
+    height:30px;
+}
+.sort {
+    float:left;
+    margin-top:20px;
+}
+.sort label{
+    display:block;
+    color:#888;
+    padding-right:20px;
+}
+.sort input{
+    width:220px;
+    height:30px;
+    text-indent:5px;
+}
+.sort p{
+    font-weight:bold;
+    padding:0px 20px;
+}
+.sort button{
+    display:block;
+    margin-left:20px;
+    border:0px;
+    color:#fff;
+    height:30px;
+    background-color:#57b958;
+    
+}
+.showRecord .show{
+    float:left;
+
+}
+.showRecord .show label{
+    color:#888;
+    padding-right:20px;
+}
+.showRecord .show select{
+    width:100px;
+    height:30px;
+    border:1px solid #ddd;
+}
+td.isActive, td.useByActive, td.baseURLActive {
+    background-color:rgba(178, 243, 189, 0.44);
+}
+select#leaderChingResult {
+    color: #fff;
+}
+b.bnot {
+    position: absolute;
+    top: -9px;
+    right: 0px;
+    font-weight: normal;
+    background: red;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+}
+ul.ProblemNot {
+    position:absolute;
+    z-index:1000000;
+    background-color:#edf2fa;
+    margin:0px;
+    list-style:none;
+    min-width:400px;
+    left: -362px;
+    top: 34px;
+    color: #333;
+    padding:0px;
+    display: none;
+}
+ul.ProblemNot:after{
+    content:"";
+    display:block;
+    position:absolute;
+    top: -10px;
+    right: 16px;
+    width:20px;
+    height:20px;
+    background-color:#edf2fa;
+    transform:rotate(45deg);
+}
+ul.ProblemNot li{
+    display:block;
+    width:100%;
+    padding:10px 10px;
+    border-bottom:1px solid #ddd;
+}
+ul.ProblemNot li a{
+    color: #337ab7;
 }
