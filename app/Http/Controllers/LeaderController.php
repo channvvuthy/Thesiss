@@ -207,7 +207,12 @@ class LeaderController extends Controller
     }
 
     public function getBaseList(Request $request){
-        $bases=Base::where('used',NULL)->paginate(35);
+        if(!empty($request->num_row)){
+           $bases=Base::where('used',NULL)->paginate($request->num_row);
+        }else{
+            $bases=Base::where('used',NULL)->paginate(35);
+        }
+        
         $layouts=Layout::where('status','1')->get();
         $groups=Group::where('type','first')->get();
         return view('leader.getBaseList')->withBases($bases)->withLayouts($layouts)->withGroups($groups);
@@ -242,29 +247,65 @@ class LeaderController extends Controller
             return view('leader.getBaseSearch')->withBases($bases)->withLayouts($layouts)->withGroups($groups);
 
         }
-        if(!empty($request->from)){
+        if(!empty($request->from && !empty($request->to))){
             $from=$request->from;
+            $from=explode("-",$from);
+            $yearFrom=$from[0];
+            $monthFrom=$from[1];
+            $dateFrom=$from[2];
+            $dateFrom;
             $to=$request->to;
-            $bases=Base::whereMonth('created_at','>=', $from)
-              ->whereMonth('created_at','<=', $to)
-              ->get();
-              return $bases;
+            $to=explode("-",$to); 
+            $yearTo=$to[0];
+            $monthTo=$to[1];
+            $dateTo=$to[2];
+            $bases=Base::whereMonth('created_at','>=', $monthFrom)->whereMonth('created_at','<=',$monthTo)->whereYear('created_at','>=',$yearFrom)->whereYear('created_at','<=',$yearTo)->get();
+            $layouts=Layout::where('status','1')->get();
+            $groups=Group::where('type','first')->get();
+            return view('leader.getBaseSearch')->withBases($bases)->withLayouts($layouts)->withGroups($groups);
+        }else if(!empty($request->from && empty($request->to))){
+            $from=$request->from;
+            $from=explode("-",$from);
+            $yearFrom=$from[0];
+            $monthFrom=$from[1];
+            $dateFrom=$from[2];
+            $dateFrom;
+            $bases=Base::whereMonth('created_at','>=', $monthFrom)->whereYear('created_at','>=',$yearFrom)->get();
             $layouts=Layout::where('status','1')->get();
             $groups=Group::where('type','first')->get();
             return view('leader.getBaseSearch')->withBases($bases)->withLayouts($layouts)->withGroups($groups);
         }
+
         $ids=$request->id;
         $i=0;
         $version=$request->version;
         $not=$request->note;
         $user_by=$request->used_by;
-        if(!empty($ids)){
-            foreach($ids as $id){
-                $base=Base::find($id);
-            
-                $i++;
+        if(!empty($request->choose_action)){
+            $action=$request->choose_action;
+            if($action=="update"){
+                if(!empty($ids)){
+                    foreach($ids as $id){
+                        $base=Base::find($id);
+                        $base->version=$version[$i];
+                        $base->note=$note[$i];
+                        $base->used_by=$used_by[$i];
+                        $base->save();
+                        $i++;
+                    }
+                }
+            }elseif($action=="delete"){
+                if(!empty($ids)){
+                    foreach($ids as $id){
+                        $base=Base::find($id);
+                    
+                        $base->save();
+                        $i++;
+                    }
+                }
             }
         }
+        
     }
     public function getUpdateStatusBaseLeaderCheck(Request $request){
         $baseId=$request->baseId;
@@ -316,6 +357,36 @@ class LeaderController extends Controller
             ->get();
             return $bases;
     }
+
+    public function getBaseReport(Request $request){
+        $select_report=$request->select_report;
+        $date=date("d");
+        $month=date('m');
+        $year=date('Y');
+        $last_year=$year-1;
+        if($select_report=="today"){
+          return DB::select(DB::raw("select bases.id,bases.name as BaseName,bases.user_id,count(bases.user_id) as Total,users.name  from bases LEFT JOIN users on users.id=bases.user_id where day =$date AND year=$year GROUP BY bases.user_id"));
+        }elseif($select_report=='month'){
+            return DB::select(DB::raw("select bases.id,bases.name as BaseName,bases.user_id,count(bases.user_id) as Total,users.name  from bases LEFT JOIN users on users.id=bases.user_id where month =$month AND year=$year GROUP BY bases.user_id"));
+        }else if($select_report=='year'){
+             return DB::select(DB::raw("select bases.id,bases.name as BaseName,bases.user_id,count(bases.user_id) as Total,users.name  from bases LEFT JOIN users on users.id=bases.user_id where year=$year GROUP BY bases.user_id"));
+        }elseif($select_report=='last_year'){
+            return DB::select(DB::raw("select bases.id,bases.name as BaseName,bases.user_id,count(bases.user_id) as Total,users.name  from bases LEFT JOIN users on users.id=bases.user_id where year=$last_year GROUP BY bases.user_id"));
+        }else{
+            return DB::select(DB::raw("select bases.id,bases.name as BaseName,bases.user_id,count(bases.user_id) as Total,users.name  from bases LEFT JOIN users on users.id=bases.user_id  GROUP BY bases.user_id"));
+        }
+    }
+
+    public function getLoadBaseReport(Request $request){
+        $report=$request->report;
+        $report=explode("-", $report);
+        $year=$report[0];
+        $month=$report[1];
+        $date=$report[2];
+        $bases=DB::select(DB::raw("select bases.id,bases.name as BaseName,bases.user_id,count(bases.user_id) as Total,users.name  from bases LEFT JOIN users on users.id=bases.user_id where day =$date AND month=$month AND  year=$year GROUP BY bases.user_id"));
+        return $bases;
+    }
+
     public function openDir($dir = null)
     {
         try {

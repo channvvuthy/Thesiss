@@ -23,7 +23,8 @@ class LeaderMiddleware
                 }
             }
         }
-        return response("Insufficient Permission");
+        Auth::logout();
+        return redirect()->route('login');
 
     }
 }

@@ -9,7 +9,7 @@ Leader
     <div class="pangasu float">
         <ul class="list-unstyled">
             <li><a href="/administrator/index"><img src="{{asset('icon/1489862497_house.png')}}" alt=""></a></li>
-            <li><a href="{{route('createUser')}}">Base List</a></li>
+            <li><a href="{{route('listBaseMember')}}">Base List</a></li>
         </ul>
     </div>
     <div class="clearfix clear-top-normal" style="margin-top:15px;"></div>
@@ -24,10 +24,10 @@ Leader
             </div>
             <div class="panel-body" style="padding:10px;">
                 <div class="col-md-4 choose" style="padding-left:0px">
-                    <select>
+                    <select name="choose_action">
                         <option value="">Choose Action</option>
-                        <option value="">Delete</option>
-                        <option value="">Update</option>
+                        <option value="Delete">Delete</option>
+                        <option value="Update">Update</option>
                     </select>
                     <button style="submit">Save</button>
                 </div>
@@ -42,7 +42,7 @@ Leader
                 <div class="clearfix"></div>
                 <div class="col-md-12" style="padding:0px;">
                     <div class="sort">
-                        <label for="">Sort By Date</label>
+                        <label for="">Sort By Month</label>
                     </div>
                     <div class="sort">
                         <input type="date" name="from" id="">
@@ -63,14 +63,16 @@ Leader
                             <label for="">Show Record</label>
                         </div>
                         <div class="show">
-                            <select name="" id="">
-                                <option value="">10</option>
-                                <option value="">20</option>
-                                <option value="">30</option>
-                                <option value="">50</option>
-                                <option value="">100</option>
-                                <option value="">500</option>
-                                <option value="">1000</option>
+                            <select name="" id="showNumrow">
+                                <option value=""></option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="500">500</option>
+                                <option value="1000">1000</option>
                             </select>
                         </div>
                     </div>
@@ -81,6 +83,7 @@ Leader
                 <table class="table-bordered table" oncontextmenu="onCopyAndPass()" style="width:2600px;">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>ID</th>
                             <th>Name</th>
                             <th>Create By</th>
@@ -101,6 +104,7 @@ Leader
                             
                         </tr>
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -145,7 +149,9 @@ Leader
                         @if(!empty($bases))
                         @foreach($bases as $base)
                         <tr>
-                            <td>{{$base->id}}<input type="hidden" value="{{$base->id}}" name="id[]"></td>
+                            <td><input type="checkbox" name="check[]" id="" value="{{$base->id}}"></td>
+
+                            <td id="{{$base->name}}">{{$base->id}}<input type="hidden" value="{{$base->id}}" name="id[]"></td>
                             <td>{{$base->name}}</td>
                             <td>{{$base->user->name}}</td>
                             <td>{{$base->variations->name}}</td>
@@ -210,6 +216,34 @@ Leader
                 
             </div>
             
+        </div>
+       <div class="panel-default">
+                <div class="panel-heading">
+                    <h4>Report Daily</h4>
+                </div>
+                <div class="panel-body" style="border:1px solid #ddd">
+                    <div class="report">
+                        <select name="select_report" id="select_report" class="form-control">
+                            <option value="today">Today</option>
+                            <option value="month">This Month</option>
+                            <option value="year">This Year</option>
+                            <option value="last_year">Last Year</option>
+                            <option value="all">All</option>
+                        </select>
+                    </div>
+                    <div class="report">
+                        <b>OR</b>
+                    </div>
+                    <div class="report">
+                        <input type="date" name="report" id="reportOption" class="form-control">
+                    </div>
+                    <div class="report">
+                        <button type="button" class="btn btn-success load">Load</button>
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr>
+                    <div class="reportResult"></div>
+                </div>
         </div>
     </div>
 </form>
@@ -378,6 +412,88 @@ Leader
             });
         }
 
+    });
+    $("#showNumrow").on('change',function(){
+        var url=window.location.href;
+        var number=$(this).val();
+        var n = url.indexOf('?num_row');
+        url = url.substring(0, n != -1 ? n : url.length);
+        window.location.href=url+"?num_row="+number;
+
+    });
+    var select_report=$("#select_report").val();
+    var tableReport="<table class='table table-bordered'><thead><tr><td>Member Name</td><td>Total</td></tr></thead><tbody>";
+    var total=0;
+    var endTableReport="</tbody></table>"
+    jQuery.ajax({
+        url:"{{route('reportBase')}}",
+        type:"GET",
+        dataType:"json",
+        data:{select_report:select_report},
+        success:function(data){
+           for(var i=0; i<data.length;i++){
+            tableReport+="<tr><td>"+data[i]['name']+"</td><td>"+data[i]['Total']+"</td></tr>"
+            total=total+data[i]['Total'];
+           }
+           tableReport+="<tr><td colspan='2'align='right'>Total:"+total+"</td></tr>";
+           tableReport+=endTableReport;
+           $(".reportResult").html(tableReport);
+        }
+    });
+    $("#select_report").on('change',function(){
+        var select_report=$("#select_report").val();
+        var tableReport="<table class='table table-bordered'><thead><tr><td>Member Name</td><td>Amount</td></tr></thead><tbody>";
+        var endTableReport="</tbody></table>";
+        var total=0;
+        select_report=$(this).val();
+        jQuery.ajax({
+            url:"{{route('reportBase')}}",
+            type:"GET",
+            dataType:"json",
+            data:{select_report:select_report},
+            success:function(data){
+               for(var i=0; i<data.length;i++){
+                    tableReport+="<tr><td>"+data[i]['name']+"</td><td>"+data[i]['Total']+"</td></tr>";
+                    total=total+data[i]['Total'];
+
+                }
+                tableReport+="<tr><td colspan='2'align='right'>Total:"+total+"</td></tr>";
+                tableReport+=endTableReport;
+
+                $(".reportResult").html(tableReport);
+            },
+            complete:function(){
+
+            }
+        }); 
+    });
+
+    $(".load").click(function(){
+        var tableReport="<table class='table table-bordered'><thead><tr><td>Member Name</td><td>Total</td></tr></thead><tbody>";
+        var endTableReport="</tbody></table>"
+        var reportOption=$("#reportOption").val();
+        if(reportOption==""){
+            return;
+        }
+        var total=0;
+        jQuery.ajax({
+            url:"{{route('loadReportBase')}}",
+            type:"GET",
+            dataType:"",
+            data:{report:reportOption},
+            success:function(data){
+                for(var i=0; i<data.length;i++){
+                     tableReport+="<tr><td>"+data[i]['name']+"</td><td>"+data[i]['Total']+"</td></tr>";
+                     total=total+data[i]['Total'];
+                }
+                tableReport+="<tr><td colspan='2'align='right'>Total:"+total+"</td></tr>";
+                tableReport+=endTableReport;
+                $(".reportResult").html(tableReport);
+            },
+            complete:function(){
+
+            }
+        });
     });
 
 </script>

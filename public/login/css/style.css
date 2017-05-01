@@ -92,7 +92,7 @@
 }
 .col-md-2.navLeft {
     background: #212c32;
-    min-height: 1000px;
+    min-height: 2000px;
 }
 .col-md-2.navLeft ul li a{
     color:#e3e7e8;
@@ -334,4 +334,13 @@ ul.ProblemNot li{
 }
 ul.ProblemNot li a{
     color: #337ab7;
+}
+.report {
+    width: 20%;
+    float: left;
+    text-align: center;
+}
+.report b {
+    display:block;
+    margin-top:10px;
 }

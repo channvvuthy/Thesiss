@@ -34,7 +34,7 @@
 
                 }
                 for(var i=0;i<data.length;i++){
-                    sub+='<li><a href="'+data[i]['url']+'/'+data[i]['name']+'">'+data[i]['name']+'</a> updated from <a href="">'+data[i]['userName']+'</a> with problem  <b>'+data[i]['leader_check_problem']+'</b></li>';
+                    sub+='<li><a href="#'+data[i]['name']+'">'+data[i]['name']+'</a> updated from <a href="">'+data[i]['userName']+'</a> with problem  <b>'+data[i]['leader_check_problem']+'</b></li>';
                 }
                 sub+="<ul>";
                 $(".notification").append(sub);
@@ -49,6 +49,11 @@
         $(".notification a").click(function(e){
             e.preventDefault();
             $(".ProblemNot").toggle("100");
+        });
+        $("body").on('click','.ProblemNot a',function(){
+            var hr=$(this).attr('href');
+            hr=hr.replace("#","");
+            $("td#"+hr+"").parent().css({"background-color":"rgba(178, 243, 189, 0.44)"});
         });
     });
 </script>

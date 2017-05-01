@@ -303,6 +303,15 @@ Route::group(['prefix' => 'leader'], function () {
             'uses'=>'LeaderController@getSubmitQC',
             'as'=>'submitQC'
         ]);
+        Route::get('report-base',[
+            'uses'=>'LeaderController@getBaseReport',
+            'as'=>'reportBase'
+        ]);
+
+        Route::get('report-base-date',[
+            'uses'=>'LeaderController@getLoadBaseReport',
+            'as'=>'loadReportBase'
+        ]);
 
     });
 

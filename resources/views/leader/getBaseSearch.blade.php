@@ -63,14 +63,16 @@ Leader
                             <label for="">Show Record</label>
                         </div>
                         <div class="show">
-                            <select name="" id="">
-                                <option value="">10</option>
-                                <option value="">20</option>
-                                <option value="">30</option>
-                                <option value="">50</option>
-                                <option value="">100</option>
-                                <option value="">500</option>
-                                <option value="">1000</option>
+                            <select name="" id="showNumrow">
+                                <option value=""></option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="500">500</option>
+                                <option value="1000">1000</option>
                             </select>
                         </div>
                     </div>
@@ -376,6 +378,14 @@ Leader
                 }
             });
         }
+
+    });
+     $("#showNumrow").on('change',function(){
+        var url=window.location.href;
+        var number=$(this).val();
+        var n = url.indexOf('?num_row');
+        url = url.substring(0, n != -1 ? n : url.length);
+        window.location.href=url+"?num_row="+number;
 
     });
 

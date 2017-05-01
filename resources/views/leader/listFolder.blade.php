@@ -9,7 +9,7 @@ Leader
     <div class="pangasu float">
         <ul class="list-unstyled">
             <li><a href="/administrator/index"><img src="{{asset('icon/1489862497_house.png')}}" alt=""></a></li>
-            <li><a href="{{route('createUser')}}">Base List</a></li>
+            <li><a href="{{route('listBaseMember')}}">Base List</a></li>
         </ul>
     </div>
     <div class="clearfix clear-top-normal" style="margin-top:15px;"></div>
