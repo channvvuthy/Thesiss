@@ -14,8 +14,14 @@
             </li>
             <li><a href="{{route('uploadLayout')}}"><img src="{{asset('icon/1489860445_ic_history_48px.png')}}" alt="">Upload
                     Layout</a></li>
-            <li><a href="{{route('getMemberBase')}}"><img src="{{asset('icon/11489856481_user.png')}}">Assign Base Pattern</a></li>
-            <li><a href="{{route('listBaseMember')}}"><img src="{{asset('icon/11489856481_user.png')}}">All Base</a></li>
+            <li><a href="{{route('uploadVersion')}}"><img src="{{asset('icon/1489860445_ic_history_48px.png')}}" alt="">
+                    Version</a></li>
+            <li><a href="{{route('uploadType')}}"><img src="{{asset('icon/1489860445_ic_history_48px.png')}}" alt="">
+                    Type</a></li>
+            <li><a href="{{route('getMemberBase')}}"><img src="{{asset('icon/11489856481_user.png')}}">Assign Base
+                    Pattern</a></li>
+            <li><a href="{{route('listBaseMember')}}"><img src="{{asset('icon/11489856481_user.png')}}">All Base</a>
+            </li>
             <li><a href="{{route('baseDirectory')}}"><img src="{{asset('icon/pattern.png')}}" alt="">Directory</a>
             </li>
             <li><a href="{{route('logout')}}"><img src="{{asset('icon/1489860783_SignOut.png')}}" alt=""> Logout</a>

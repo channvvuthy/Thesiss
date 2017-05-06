@@ -236,8 +236,11 @@ class LeaderController extends Controller
     public function getLeaderUpdateBase(Request $request){
         if(!empty($request->listFolder)){
           $select=$this->openDir($request->listFolder);
-          $bases =Base::whereIn('name',$select)->get();
-          return view('leader.listFolder')->with('bases',$bases);
+          if(!empty($select)){
+              $bases =Base::whereIn('name',$select)->get();
+              return view('leader.listFolder')->with('bases',$bases);
+          }
+          return redirect()->back();
         }
         if(!empty($request->search)){
             $search=$request->search;
@@ -279,32 +282,35 @@ class LeaderController extends Controller
         $ids=$request->id;
         $i=0;
         $version=$request->version;
-        $not=$request->note;
-        $user_by=$request->used_by;
+        $note=$request->note;
+        $used_by=$request->used_by;
+        $used_by_id=$request->used_by_id;
         if(!empty($request->choose_action)){
             $action=$request->choose_action;
-            if($action=="update"){
+            if($action=="Update"){
                 if(!empty($ids)){
                     foreach($ids as $id){
                         $base=Base::find($id);
                         $base->version=$version[$i];
                         $base->note=$note[$i];
                         $base->used_by=$used_by[$i];
+                        $base->used_by_id=$used_by_id[$i];
                         $base->save();
                         $i++;
                     }
+                    return redirect()->back()->withInput()->withErrors(['notice'=>'update success']);
                 }
-            }elseif($action=="delete"){
-                if(!empty($ids)){
-                    foreach($ids as $id){
-                        $base=Base::find($id);
-                    
-                        $base->save();
-                        $i++;
+            }elseif($action=="Delete"){
+                if(!empty($request->check)){
+                    foreach ($request->check as $key) {
+                        $base=Base::find($key);
+                        $base->delete();
                     }
                 }
+                return redirect()->back()->withInput()->withErrors(['notice'=>'Base delete success']);
             }
         }
+        return redirect()->back();
         
     }
     public function getUpdateStatusBaseLeaderCheck(Request $request){

@@ -260,4 +260,24 @@ class AdminController extends Controller
         }
     }
 
+    public function getAccountAdmin(){
+        return view('admin.adminAccount');
+    }
+    public function getUpdateProfile(Request $request){
+        $id=$request->id;
+        $user=User::find($id);
+        $name=$request->userName;
+        $password=$request->password;
+        if(!empty($password)){
+            $password=bcrypt($password);
+            $user->password=$password;
+        }
+        $user->name=$name;
+        $user->email=$request->email;
+        $user->save();
+        return redirect()->route('AccountAdmin')->withInput()->withErrors(['notice'=>'Profile has been updated']);
+    }
+
+
+
 }

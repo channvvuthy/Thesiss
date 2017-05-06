@@ -89,7 +89,7 @@ Leader
                             <th>Version</th>
                             <th>Submited QC</th>
                         </tr>
-                        
+
                     </thead>
                     <tbody>
 
@@ -107,12 +107,12 @@ Leader
                             @endforeach
                        @endif
                     </tbody>
-                    
+
                 </table>
-               
-                
+
+
             </div>
-            
+
         </div>
     </div>
 </form>

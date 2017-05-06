@@ -218,7 +218,7 @@ p b {
     height:31px;
     color:#fff;
     background-color:#57b958;
-    
+
 }
 .col-md-4.list {
 }
@@ -271,7 +271,7 @@ p b {
     color:#fff;
     height:30px;
     background-color:#57b958;
-    
+
 }
 .showRecord .show{
     float:left;
@@ -343,4 +343,43 @@ ul.ProblemNot li a{
 .report b {
     display:block;
     margin-top:10px;
+}
+.group {
+    border: 1px solid #35e8e8;
+    background: #35dede;
+    top:0;
+    left:0;
+    min-width: 171px;
+}
+.group:after{
+    content:"";
+    position:absolute;
+    width:15px;
+    height:15px;
+    background-color: #35dede;
+    right: -7px;
+    top: 40px;
+    transform:rotate(45deg);
+}
+.group li{
+    padding:5px;
+    border-bottom:1px solid #35e8e8;
+    color:#fff;
+    cursor: pointer;
+}
+.group li:last-child{
+    border-bottom:0px;
+}
+.col-md-3.blockManage {
+    background: #337ab7;
+    border: 10px solid #fff;
+    text-align:center;
+    padding:20px;
+}
+.col-md-3.blockManage a{
+    color:#fff;
+    text-decoration:none;
+    font-size:30px;
+    display:block;
+
 }

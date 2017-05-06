@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use File;
 use App\Models\Layout;
 use Illuminate\Support\Facades\Response;
+use App\Models\Type;
+use App\Models\Version;
 
 class LayoutController extends Controller
 {
@@ -101,5 +103,72 @@ class LayoutController extends Controller
         $path = public_path("layout/".$filename);
         header('Content-Type', 'application/pdf');
         return response()->file($path);
+    }
+    public function getUploadVersion(){
+        $versions=Version::where('status','1')->get();
+        return view('leader.version')->with('versions',$versions);
+    }
+    public function  postUploadVersion(Request $request){
+        $this->validate($request,[
+            'version'=>'required'
+        ]);
+        $name=$request->version;
+        $description=$request->description;
+        $version=new Version();
+        $version->name=$name;
+        $version->description=$description;
+        $version->save();
+        return redirect()->back()->withInput()->withErrors(['notice'=>'Version has been added']);
+
+    }
+    public function postUpdateVersion(Request $request){
+        $this->validate($request,[
+            'version'=>'required'
+        ]);
+        $id=$request->id;
+        $name=$request->description;
+        $description=$request->description;
+        $version=Version::find($id);
+        $version->name=$name;
+        $version->description=$description;
+        $version->status=$request->status;
+        $version->save();
+        return redirect()->back()->withInput()->withErrors(['notice'=>'Version has been updated']);
+    }
+
+    public function getDeleteVersion($id){
+        $id=Version::find($id);
+        $id->delete();
+        return redirect()->back()->withInput()->withErrors(['notice'=>'Version has been deleted']);
+    }
+
+    public function getEditVersion($id){
+
+        $version=Version::find($id);
+        return view('leader.editVersion')->with('version',$version);
+    }
+    public function getUploadType(){
+        return view('leader.type');
+    }
+    public function postUploadType(Request $request){
+        $name=$request->name;
+        $description=$request->description;
+        $type=new Type();
+        $type->name=$name;
+        $type->description=$description;
+        $type->save();
+        return redirect()->back()->withInput()->withErrors(['notice'=>'Type has been added']);
+    }
+    public function postUpdateType(Request $request){
+        $id=$request->id;
+        $name=$request->name;
+        $description=$request->description;
+        $description->save();
+        return redirect()->back()->withInput()->withErrors(['notice'=>'Type has been updated']);
+    }
+
+    public function getEditType($id){
+        $type=Type::find($id);
+        return view('leader.editType')->with('type',$type);
     }
 }
